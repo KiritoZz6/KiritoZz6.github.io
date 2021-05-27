@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>Sakura-Pub🌸樱花酒吧🍻</title>
+  <title>🌸樱花酒吧🍻</title>
   
-  
+  <subtitle>🌸Sakura-Pub🍻</subtitle>
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
