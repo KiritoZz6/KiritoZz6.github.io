@@ -1,0 +1,103 @@
+/* 自定义字体 */
+@font-face {
+    font-family: 'sleek';
+    src: url('https://cdn.jsdelivr.net/gh/lete114/CDN2/zaxiang/sleek.woff2');
+}
+
+/* 隐藏回到顶部按钮，替换为up酱 */
+#go-up i {
+    display: none;
+    background-color: transparent !important;
+}
+
+#go-up {
+    background-color: transparent !important;
+}
+
+#upj {
+    transform: translate(-70px, -80px) !important;
+}
+/*新版3.0.0以上添加up酱置顶ico图标上移问题*/
+.fas.fa-arrow-up {
+    line-height: 2;
+}
+
+/* 博主昵称颜色 */
+.author-info__name {
+    color: #ff7242;
+}
+
+/* 评论框  */
+
+.vwrap {
+    box-shadow: 2px 2px 5px #bbb;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    padding: 30px;
+    margin: 30px 0px 30px 0px;
+}
+
+
+/* 提交按钮 */
+
+#vcomment button {
+    padding: 0.3rem 0.8rem;
+    border-color: #fff;
+    background-color: #e58a8a;
+    color: #fff;
+    font-size: 0.7rem;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    -ms-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+
+/* 评论区代码块 */
+
+.v[data-class=v] code {
+    color: #c7254e;
+    background-color: #F9F2F4;
+}
+/* 设置评论框 */
+
+.vcard {
+    box-shadow: 2px 2px 5px #bbb;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    padding: 30px;
+    margin: 30px 0px 0px 0px;
+}
+
+
+/* 取消回复聊天框 */
+
+.vquote .vcard {
+    box-shadow: 2px 2px 5px transparent;
+    background: rgba(255, 255, 255, 0.0);
+    padding: 0px;
+}
+
+/* 滚动条 */
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #e58a8a;
+    background-image: -webkit-linear-gradient( 45deg, rgba(255, 255, 255, 0.4) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.4) 50%, rgba(255, 255, 255, 0.4) 75%, transparent 75%, transparent);
+    border-radius: 2em;
+}
+
+::-webkit-scrollbar-corner {
+    background-color: transparent;
+}
+
+::-moz-selection {
+    color: #fff;
+    background-color: #e58a8a;
+}
+
