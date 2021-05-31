@@ -101,3 +101,9 @@
     background-color: #e58a8a;
 }
 
+
+/* 页脚透明 */
+
+#footer {
+    background: transparent !important;
+}
