@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-05-31T12:31:07.809Z</updated>
+  <updated>2021-05-31T14:34:30.050Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -21,8 +21,15 @@
     <link href="http://example.com/2021/05/31/%E8%AE%B0%E4%BA%8B/%E7%AC%AC%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/"/>
     <id>http://example.com/2021/05/31/%E8%AE%B0%E4%BA%8B/%E7%AC%AC%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/</id>
     <published>2021-05-31T12:28:23.000Z</published>
-    <updated>2021-05-31T12:31:07.809Z</updated>
+    <updated>2021-05-31T14:34:30.050Z</updated>
     
+    <content type="html"><![CDATA[<h1 id="关于这个博客的一些事🍥"><a href="#关于这个博客的一些事🍥" class="headerlink" title="关于这个博客的一些事🍥"></a>关于这个博客的一些事🍥</h1><p>​    当初创建这个博客的目的是想着记录自己在大学生活中遇到的一些问题或者学习笔记等，平时也看了不少别人的个人博客，于是心血来潮就想自己也创一个属于自己的个人博客。</p><p>​    刚开始我便去查找有什么博客平台，因为我喜欢自己自定义界面的那种方式，于是便舍弃了像CSDN、博客园这样的国内大多人在用的博客平台，之后便找到了可以利用GitHub来做一个博客方式，即：<a href="https://hexo.io/zh-cn/">hexo</a>。之后我便跟着教程开始搭建，也发现了一些很好看的主题，我现在用的这个主题是<a href="https://butterfly.js.org/">butterfly</a>（<a href="https://github.com/jerryc127/hexo-theme-butterfly/tree/dev">GitHub地址</a>）。之后研究美化界面又花了好一些时间，不过在弄这些东西的时候我都觉得很满足，看着属于自己的博客慢慢开始搭建起来，一股成就感就上来了，而且在其中也接触到了许多之前没有遇到过的知识。</p><p>​    弄好博客的基本框架后，才是真正的开始，希望有一个博客之后，能够对我自己有更好的帮助，可以更好地去总结知识点，也希望可以分享一些知识给观看博客的你😀。</p><h1 id="关于我的一些事"><a href="#关于我的一些事" class="headerlink" title="关于我的一些事"></a>关于我的一些事</h1><p>​    待更新…….💨</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;关于这个博客的一些事🍥&quot;&gt;&lt;a href=&quot;#关于这个博客的一些事🍥&quot; class=&quot;headerlink&quot; title=&quot;关于这个博客的一些事🍥&quot;&gt;&lt;/a&gt;关于这个博客的一些事🍥&lt;/h1&gt;&lt;p&gt;​    当初创建这个博客的目的是想着记录自己在大学生活中遇</summary>
+      
     
     
     
