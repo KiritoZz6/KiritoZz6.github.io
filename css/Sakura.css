@@ -17,10 +17,7 @@
 #upj {
     transform: translate(-70px, -80px) !important;
 }
-/*新版3.0.0以上添加up酱置顶ico图标上移问题*/
-.fas.fa-arrow-up {
-    line-height: 2;
-}
+
 
 /* 博主昵称颜色 */
 .author-info__name {
@@ -71,13 +68,7 @@
 }
 
 
-/* 取消回复聊天框 */
 
-.vquote .vcard {
-    box-shadow: 2px 2px 5px transparent;
-    background: rgba(255, 255, 255, 0.0);
-    padding: 0px;
-}
 
 /* 滚动条 */
 
