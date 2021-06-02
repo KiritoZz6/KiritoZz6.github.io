@@ -4,7 +4,14 @@
   <url>
     <loc>http://example.com/2021/06/01/UnityNotes/Unity%E7%AC%94%E8%AE%B01-%E7%86%9F%E6%82%89Unity%E7%95%8C%E9%9D%A2%E4%BB%A5%E5%8F%8A%E6%9E%84%E5%BB%BA%E5%9C%BA%E6%99%AF/</loc>
     
-    <lastmod>2021-06-01</lastmod>
+    <lastmod>2021-06-02</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://example.com/Unity%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html</loc>
+    
+    <lastmod>2021-06-02</lastmod>
     
   </url>
   
@@ -23,13 +30,6 @@
   </url>
   
   <url>
-    <loc>http://example.com/Unity%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html</loc>
-    
-    <lastmod>2021-06-01</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://example.com/2021/05/31/%E8%AE%B0%E4%BA%8B/%E5%85%B3%E4%BA%8E%E6%88%91/</loc>
     
     <lastmod>2021-06-01</lastmod>
@@ -39,7 +39,7 @@
 
   <url>
     <loc>http://example.com/</loc>
-    <lastmod>2021-06-01</lastmod>
+    <lastmod>2021-06-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -47,21 +47,21 @@
   
   <url>
     <loc>http://example.com/tags/%E8%AE%B0%E4%BA%8B/</loc>
-    <lastmod>2021-06-01</lastmod>
+    <lastmod>2021-06-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://example.com/tags/Markdown/</loc>
-    <lastmod>2021-06-01</lastmod>
+    <lastmod>2021-06-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://example.com/tags/Unity/</loc>
-    <lastmod>2021-06-01</lastmod>
+    <lastmod>2021-06-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
@@ -70,14 +70,14 @@
   
   <url>
     <loc>http://example.com/categories/%E8%AE%B0%E4%BA%8B/</loc>
-    <lastmod>2021-06-01</lastmod>
+    <lastmod>2021-06-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://example.com/categories/Unity%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
-    <lastmod>2021-06-01</lastmod>
+    <lastmod>2021-06-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
