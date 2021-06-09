@@ -1,0 +1,233 @@
+<!DOCTYPE html><html lang="zh-Hans" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Unity笔记3--摄像机跟踪处理 | 🌸樱花酒吧🍻</title><meta name="keywords" content="Unity"><meta name="author" content="Sakura."><meta name="copyright" content="Sakura."><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="​    在上一章节，我们第一次在Unity上使用代码来实现了我们人物的移动。但是我们发现镜头并不会跟着人物移动，因此在这一章节我们就来实现如何让摄像机跟着我们小人走。 ​    同样我们也要安装一个插件，叫做 Cinemachine ，安装完后我们可以在Unity界面上方的菜单栏看见它的功能条       首先安装好Cinemachine  ​    在这里我们用到的选项是第一个，先选中我们的主">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Unity笔记3--摄像机跟踪处理">
+<meta property="og:url" content="http://example.com/2021/06/09/UnityNotes/Unity%E7%AC%94%E8%AE%B03-%E6%91%84%E5%83%8F%E6%9C%BA%E8%B7%9F%E8%B8%AA%E5%A4%84%E7%90%86/index.html">
+<meta property="og:site_name" content="🌸樱花酒吧🍻">
+<meta property="og:description" content="​    在上一章节，我们第一次在Unity上使用代码来实现了我们人物的移动。但是我们发现镜头并不会跟着人物移动，因此在这一章节我们就来实现如何让摄像机跟着我们小人走。 ​    同样我们也要安装一个插件，叫做 Cinemachine ，安装完后我们可以在Unity界面上方的菜单栏看见它的功能条       首先安装好Cinemachine  ​    在这里我们用到的选项是第一个，先选中我们的主">
+<meta property="og:locale">
+<meta property="og:image" content="https://p6-tt.byteimg.com/origin/pgc-image/092054ee476c49fabecd4c3abf4965bd.png">
+<meta property="article:published_time" content="2021-06-09T08:13:39.000Z">
+<meta property="article:modified_time" content="2021-06-09T13:31:41.489Z">
+<meta property="article:author" content="Sakura.">
+<meta property="article:tag" content="Unity">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://p6-tt.byteimg.com/origin/pgc-image/092054ee476c49fabecd4c3abf4965bd.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2021/06/09/UnityNotes/Unity%E7%AC%94%E8%AE%B03-%E6%91%84%E5%83%8F%E6%9C%BA%E8%B7%9F%E8%B8%AA%E5%A4%84%E7%90%86/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"prismjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: 'days',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Unity笔记3--摄像机跟踪处理',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2021-06-09 21:31:41'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><link rel="stylesheet" href="https://sakura-pub.ltd/css/Sakura.css"><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="🌸樱花酒吧🍻" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">Loading...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://p6-tt.byteimg.com/origin/pgc-image/2a23cb4b353e4abc8ff26bc4fd2c1f25.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">4</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">3</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">2</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-archive"></i><span> 目录</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类目录</span></a></li><li><a class="site-page child" href="/Unity%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span> Unity学习笔记</span></a></li><li><a class="site-page child" href="/categories/%E8%AE%B0%E4%BA%8B/"><span> 记事</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/2021/05/31/%E8%AE%B0%E4%BA%8B/%E5%85%B3%E4%BA%8E%E6%88%91/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://p6-tt.byteimg.com/origin/pgc-image/092054ee476c49fabecd4c3abf4965bd.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">🌸樱花酒吧🍻</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-archive"></i><span> 目录</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类目录</span></a></li><li><a class="site-page child" href="/Unity%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span> Unity学习笔记</span></a></li><li><a class="site-page child" href="/categories/%E8%AE%B0%E4%BA%8B/"><span> 记事</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/2021/05/31/%E8%AE%B0%E4%BA%8B/%E5%85%B3%E4%BA%8E%E6%88%91/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Unity笔记3--摄像机跟踪处理</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2021-06-09T08:13:39.000Z" title="Created 2021-06-09 16:13:39">2021-06-09</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2021-06-09T13:31:41.489Z" title="Updated 2021-06-09 21:31:41">2021-06-09</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Unity%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">Unity学习笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Unity笔记3--摄像机跟踪处理"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">Comments:</span><a href="/2021/06/09/UnityNotes/Unity%E7%AC%94%E8%AE%B03-%E6%91%84%E5%83%8F%E6%9C%BA%E8%B7%9F%E8%B8%AA%E5%A4%84%E7%90%86/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/2021/06/09/UnityNotes/Unity%E7%AC%94%E8%AE%B03-%E6%91%84%E5%83%8F%E6%9C%BA%E8%B7%9F%E8%B8%AA%E5%A4%84%E7%90%86/" itemprop="commentCount"></span></a></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>​    在上一章节，我们第一次在Unity上使用代码来实现了我们人物的移动。但是我们发现镜头并不会跟着人物移动，因此在这一章节我们就来实现如何让摄像机跟着我们小人走。</p>
+<p>​    同样我们也要安装一个插件，叫做 <strong>Cinemachine</strong> ，安装完后我们可以在Unity界面上方的菜单栏看见它的功能条</p>
+<img src="https://p6.toutiaoimg.com/origin/pgc-image/2edd56f142984d5ca500ad9372783225.jpg" alt="1.jpg" style="zoom: 67%;" />
+
+
+
+<img src="https://p6.toutiaoimg.com/origin/pgc-image/a9788d8d88904631b6965ad7b0f5b286.jpg" alt="2.jpg" style="zoom:80%;" />
+
+<center>首先安装好Cinemachine</center>
+
+<p>​    在这里我们用到的选项是第一个，先选中我们的主摄像机 Main Camera（我这里对主摄像机的命名），在菜单栏中找到 <strong>GameObject—&gt;Align View to Selected</strong>（这一步操作是把我们的视角调到和摄像机的视角一样的角度），然后再在刚刚的 <strong>Cinemachine</strong> 菜单栏中点击<strong>创建一个 Virtual Camera</strong> </p>
+<img src="https://p9.toutiaoimg.com/origin/pgc-image/a2106f307e6d4818b7bfa9ade25435ad.jpg" alt="3.jpg" style="zoom: 75%;" />
+
+<p>​    创建好后，我们的 Virtual Camera（虚拟摄像机） 就会顶替了我们的主摄像机，我们找到刚刚创建好的虚拟摄像机对象，在属性栏中进行一些调整：</p>
+<p>​    1）首先在 Body 选择为 <strong>Framing Transposer</strong> ，这样相机就会跟随着我们人物了，这里简单介绍一些其他几个选项的作用</p>
+<img src="https://p26.toutiaoimg.com/origin/pgc-image/f9ab6d9da189491187c26eb6b7f47249.jpg" alt="4.jpg" style="zoom:80%;" />
+
+<ul>
+<li><p>Do Nothing：不移动虚拟相机 </p>
+</li>
+<li><p>Framing Transposer：跟随目标移动，并在屏幕空间保持相机和跟随目标的相对位置。 </p>
+</li>
+<li><p>Hard Lock to Target：虚拟相机和跟随目标使用相同位置。</p>
+</li>
+<li><p> Orbital Transposer：相机和跟随目标的相对位置是可变的，还能接收用户的输入。常见于玩家控制的相机。</p>
+</li>
+<li><p> Tracked Dolly：相机沿着预先设置的轨道移动。 </p>
+</li>
+<li><p>Transposer：跟随目标移动，并在世界空间保持相机和跟随目标的相对位置固定。</p>
+<p>2）在 Aim 选项中选择 <strong>Do Nothing</strong> （这里对其它几个选项感兴趣的可以自己去试一下，选择POV的时候视野会跟着鼠标转动，一般可用于第一人称的游戏）</p>
+<img src="https://p26.toutiaoimg.com/origin/pgc-image/2d597d7729c044f4a771b53cde8b0077.jpg" alt="5.jpg" style="zoom:80%;" />
+
+<p>3）将你的人物对象拖入 Follow 的框框中（这里其实本质是相机跟随一个像素点，如果想调整跟随的点可以自己调整，也可以新建一个人物子类Empty对象，然后调整这个空对象的位置，再让相机跟随这个对象）</p>
+<img src="https://p5.toutiaoimg.com/origin/pgc-image/edb5d7890a4441ff965a759adb6de889.jpg" alt="6.jpg" style="zoom:80%;" /></li>
+</ul>
+<p>​    到这里，你的摄像机就会跟随着人物移动而转变视角了，当然还可以更进一步，调整一下缓冲区域（就是让相机不要跟随着太紧，让人物走那么一点点距离再相机跟随）：我们可以通过调整下图几个参数而调整，预览屏幕的框框可以看到你的缓冲区大小</p>
+<img src="https://p3.toutiaoimg.com/origin/pgc-image/b17d8f6eca6e4c1494f6b28ede1ecec3.jpg" alt="7.jpg" style="zoom:80%;" />
+
+<img src="https://p5.toutiaoimg.com/origin/pgc-image/4242f83084d54044bdb5ecedf8ad588a.jpg" alt="8.jpg" style="zoom:80%;" />
+
+<p>​    当然感兴趣的话还可以去查找更多的设置方法去调整你的摄像机，从而让你的视野移动更完美。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">Sakura.</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://example.com/2021/06/09/UnityNotes/Unity%E7%AC%94%E8%AE%B03-%E6%91%84%E5%83%8F%E6%9C%BA%E8%B7%9F%E8%B8%AA%E5%A4%84%E7%90%86/">http://example.com/2021/06/09/UnityNotes/Unity%E7%AC%94%E8%AE%B03-%E6%91%84%E5%83%8F%E6%9C%BA%E8%B7%9F%E8%B8%AA%E5%A4%84%E7%90%86/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Unity/">Unity</a></div><div class="post_share"><div class="social-share" data-image="https://p6-tt.byteimg.com/origin/pgc-image/092054ee476c49fabecd4c3abf4965bd.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2021/06/05/UnityNotes/Unity%E7%AC%94%E8%AE%B02-%E6%99%BA%E8%83%BD%E5%AF%BC%E8%88%AA%E7%9A%84%E7%83%98%E7%84%99%E5%92%8C%E9%BC%A0%E6%A0%87%E6%8E%A7%E5%88%B6%E4%BA%BA%E7%89%A9%E7%A7%BB%E5%8A%A8/"><img class="next-cover" src="https://p6-tt.byteimg.com/origin/pgc-image/092054ee476c49fabecd4c3abf4965bd.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">Unity笔记2--智能导航的烘焙和鼠标控制人物移动</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2021/06/01/UnityNotes/Unity笔记1-熟悉Unity界面以及构建场景/" title="Unity笔记1--熟悉Unity界面以及构建场景"><img class="cover" src="https://p6-tt.byteimg.com/origin/pgc-image/092054ee476c49fabecd4c3abf4965bd.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-01</div><div class="title">Unity笔记1--熟悉Unity界面以及构建场景</div></div></a></div><div><a href="/2021/06/05/UnityNotes/Unity笔记2-智能导航的烘焙和鼠标控制人物移动/" title="Unity笔记2--智能导航的烘焙和鼠标控制人物移动"><img class="cover" src="https://p6-tt.byteimg.com/origin/pgc-image/092054ee476c49fabecd4c3abf4965bd.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-05</div><div class="title">Unity笔记2--智能导航的烘焙和鼠标控制人物移动</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> Comment</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://p6-tt.byteimg.com/origin/pgc-image/2a23cb4b353e4abc8ff26bc4fd2c1f25.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Sakura.</div><div class="author-info__description">升起的烟花,从下面看?还是从侧面看?</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">4</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">3</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">2</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/KiritoZz6"><i class="fab fa-github"></i><span>关注我</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/KiritoZz6" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="/sakura_zz@163.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>Announcement</span></div><div class="announcement_content">欢迎来到我的个人博客！如果对文章有问题或者发现错误可以发邮件给我，Email：sakura_zz@163.com</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/06/09/UnityNotes/Unity%E7%AC%94%E8%AE%B03-%E6%91%84%E5%83%8F%E6%9C%BA%E8%B7%9F%E8%B8%AA%E5%A4%84%E7%90%86/" title="Unity笔记3--摄像机跟踪处理"><img src="https://p6-tt.byteimg.com/origin/pgc-image/092054ee476c49fabecd4c3abf4965bd.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Unity笔记3--摄像机跟踪处理"/></a><div class="content"><a class="title" href="/2021/06/09/UnityNotes/Unity%E7%AC%94%E8%AE%B03-%E6%91%84%E5%83%8F%E6%9C%BA%E8%B7%9F%E8%B8%AA%E5%A4%84%E7%90%86/" title="Unity笔记3--摄像机跟踪处理">Unity笔记3--摄像机跟踪处理</a><time datetime="2021-06-09T08:13:39.000Z" title="Created 2021-06-09 16:13:39">2021-06-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/06/05/UnityNotes/Unity%E7%AC%94%E8%AE%B02-%E6%99%BA%E8%83%BD%E5%AF%BC%E8%88%AA%E7%9A%84%E7%83%98%E7%84%99%E5%92%8C%E9%BC%A0%E6%A0%87%E6%8E%A7%E5%88%B6%E4%BA%BA%E7%89%A9%E7%A7%BB%E5%8A%A8/" title="Unity笔记2--智能导航的烘焙和鼠标控制人物移动"><img src="https://p6-tt.byteimg.com/origin/pgc-image/092054ee476c49fabecd4c3abf4965bd.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Unity笔记2--智能导航的烘焙和鼠标控制人物移动"/></a><div class="content"><a class="title" href="/2021/06/05/UnityNotes/Unity%E7%AC%94%E8%AE%B02-%E6%99%BA%E8%83%BD%E5%AF%BC%E8%88%AA%E7%9A%84%E7%83%98%E7%84%99%E5%92%8C%E9%BC%A0%E6%A0%87%E6%8E%A7%E5%88%B6%E4%BA%BA%E7%89%A9%E7%A7%BB%E5%8A%A8/" title="Unity笔记2--智能导航的烘焙和鼠标控制人物移动">Unity笔记2--智能导航的烘焙和鼠标控制人物移动</a><time datetime="2021-06-05T07:06:59.000Z" title="Created 2021-06-05 15:06:59">2021-06-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/06/01/UnityNotes/Unity%E7%AC%94%E8%AE%B01-%E7%86%9F%E6%82%89Unity%E7%95%8C%E9%9D%A2%E4%BB%A5%E5%8F%8A%E6%9E%84%E5%BB%BA%E5%9C%BA%E6%99%AF/" title="Unity笔记1--熟悉Unity界面以及构建场景"><img src="https://p6-tt.byteimg.com/origin/pgc-image/092054ee476c49fabecd4c3abf4965bd.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Unity笔记1--熟悉Unity界面以及构建场景"/></a><div class="content"><a class="title" href="/2021/06/01/UnityNotes/Unity%E7%AC%94%E8%AE%B01-%E7%86%9F%E6%82%89Unity%E7%95%8C%E9%9D%A2%E4%BB%A5%E5%8F%8A%E6%9E%84%E5%BB%BA%E5%9C%BA%E6%99%AF/" title="Unity笔记1--熟悉Unity界面以及构建场景">Unity笔记1--熟悉Unity界面以及构建场景</a><time datetime="2021-06-01T06:10:51.000Z" title="Created 2021-06-01 14:10:51">2021-06-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/05/31/%E8%AE%B0%E4%BA%8B/%E5%85%B3%E4%BA%8E%E6%88%91/" title="关于我"><img src="https://p3-tt.byteimg.com/origin/pgc-image/7a8ba40ec25e45dd8841867ad674a239.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="关于我"/></a><div class="content"><a class="title" href="/2021/05/31/%E8%AE%B0%E4%BA%8B/%E5%85%B3%E4%BA%8E%E6%88%91/" title="关于我">关于我</a><time datetime="2021-05-31T12:28:23.000Z" title="Created 2021-05-31 20:28:23">2021-05-31</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Sakura.</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="Toggle Between Traditional Chinese And Simplified Chinese">繁</button><button id="darkmode" type="button" title="Toggle Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><a id="to_comment" href="#post-comment" title="Scroll To Comments"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'c96bcDjnKxl3qkF4TvfrpfUL-gzGzoHsz',
+      appKey: 'Auj4bxmwcrDTE2Klb20QM9jz',
+      placeholder: '记得留下你的昵称和邮箱....可以快速收到回复',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: false,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script defer src="/live2d-widget/autoload.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js" async="async" mobile="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
