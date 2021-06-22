@@ -1,0 +1,302 @@
+<!DOCTYPE html><html lang="zh-Hans" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Unity笔记7--修改相机移动视角以及进一步完善敌人 | 🌸樱花酒吧🍻</title><meta name="keywords" content="Unity"><meta name="author" content="Sakura."><meta name="copyright" content="Sakura."><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="​    这一章我们将对项目做一些调整，包括：设置自由移动视角的相机、检测人物是否到达敌人附近、切换到追击模式等。以后我们可能会多次在项目开发途中停下来做一些小小的优化之类的，这些都是很有必要的。 将相机改成可自由移动视角​    到目前为止我们的相机虽然都是可以跟随人物移动的，但是它视角是固定的，不能自由地去移动视角。如果你想更改成自由视角的相机的话，那么就现在来实现吧！ ​    这里最主要的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Unity笔记7--修改相机移动视角以及进一步完善敌人">
+<meta property="og:url" content="http://sakura-pub.ltd/UnityNotes/Unity%E7%AC%94%E8%AE%B07-%E4%BF%AE%E6%94%B9%E7%9B%B8%E6%9C%BA%E7%A7%BB%E5%8A%A8%E8%A7%86%E8%A7%92%E4%BB%A5%E5%8F%8A%E8%BF%9B%E4%B8%80%E6%AD%A5%E5%AE%8C%E5%96%84%E6%95%8C%E4%BA%BA/index.html">
+<meta property="og:site_name" content="🌸樱花酒吧🍻">
+<meta property="og:description" content="​    这一章我们将对项目做一些调整，包括：设置自由移动视角的相机、检测人物是否到达敌人附近、切换到追击模式等。以后我们可能会多次在项目开发途中停下来做一些小小的优化之类的，这些都是很有必要的。 将相机改成可自由移动视角​    到目前为止我们的相机虽然都是可以跟随人物移动的，但是它视角是固定的，不能自由地去移动视角。如果你想更改成自由视角的相机的话，那么就现在来实现吧！ ​    这里最主要的">
+<meta property="og:locale">
+<meta property="og:image" content="https://p6-tt.byteimg.com/origin/pgc-image/2a23cb4b353e4abc8ff26bc4fd2c1f25.jpg">
+<meta property="article:published_time" content="2021-06-22T05:06:02.000Z">
+<meta property="article:modified_time" content="2021-06-22T13:55:39.247Z">
+<meta property="article:author" content="Sakura.">
+<meta property="article:tag" content="Unity">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://p6-tt.byteimg.com/origin/pgc-image/2a23cb4b353e4abc8ff26bc4fd2c1f25.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://sakura-pub.ltd/UnityNotes/Unity%E7%AC%94%E8%AE%B07-%E4%BF%AE%E6%94%B9%E7%9B%B8%E6%9C%BA%E7%A7%BB%E5%8A%A8%E8%A7%86%E8%A7%92%E4%BB%A5%E5%8F%8A%E8%BF%9B%E4%B8%80%E6%AD%A5%E5%AE%8C%E5%96%84%E6%95%8C%E4%BA%BA/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"prismjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: 'days',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Unity笔记7--修改相机移动视角以及进一步完善敌人',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-06-22 21:55:39'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><link rel="stylesheet" href="https://sakura-pub.ltd/css/Sakura.css"><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="🌸樱花酒吧🍻" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">Loading...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://p6-tt.byteimg.com/origin/pgc-image/2a23cb4b353e4abc8ff26bc4fd2c1f25.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">8</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">3</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">2</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-archive"></i><span> 目录</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类目录</span></a></li><li><a class="site-page child" href="/Unity%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span> Unity学习笔记</span></a></li><li><a class="site-page child" href="/categories/%E8%AE%B0%E4%BA%8B/"><span> 记事</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/%E8%AE%B0%E4%BA%8B/%E5%85%B3%E4%BA%8E%E6%88%91/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">🌸樱花酒吧🍻</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-archive"></i><span> 目录</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类目录</span></a></li><li><a class="site-page child" href="/Unity%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span> Unity学习笔记</span></a></li><li><a class="site-page child" href="/categories/%E8%AE%B0%E4%BA%8B/"><span> 记事</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/%E8%AE%B0%E4%BA%8B/%E5%85%B3%E4%BA%8E%E6%88%91/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Unity笔记7--修改相机移动视角以及进一步完善敌人</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2021-06-22T05:06:02.000Z" title="Created 2021-06-22 13:06:02">2021-06-22</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2021-06-22T13:55:39.247Z" title="Updated 2021-06-22 21:55:39">2021-06-22</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Unity%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">Unity学习笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Unity笔记7--修改相机移动视角以及进一步完善敌人"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">Comments:</span><a href="/UnityNotes/Unity%E7%AC%94%E8%AE%B07-%E4%BF%AE%E6%94%B9%E7%9B%B8%E6%9C%BA%E7%A7%BB%E5%8A%A8%E8%A7%86%E8%A7%92%E4%BB%A5%E5%8F%8A%E8%BF%9B%E4%B8%80%E6%AD%A5%E5%AE%8C%E5%96%84%E6%95%8C%E4%BA%BA/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/UnityNotes/Unity%E7%AC%94%E8%AE%B07-%E4%BF%AE%E6%94%B9%E7%9B%B8%E6%9C%BA%E7%A7%BB%E5%8A%A8%E8%A7%86%E8%A7%92%E4%BB%A5%E5%8F%8A%E8%BF%9B%E4%B8%80%E6%AD%A5%E5%AE%8C%E5%96%84%E6%95%8C%E4%BA%BA/" itemprop="commentCount"></span></a></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>​    这一章我们将对项目做一些调整，包括：设置自由移动视角的相机、检测人物是否到达敌人附近、切换到追击模式等。以后我们可能会多次在项目开发途中停下来做一些小小的优化之类的，这些都是很有必要的。</p>
+<h1 id="将相机改成可自由移动视角"><a href="#将相机改成可自由移动视角" class="headerlink" title="将相机改成可自由移动视角"></a>将相机改成可自由移动视角</h1><p>​    到目前为止我们的相机虽然都是可以跟随人物移动的，但是它视角是固定的，不能自由地去移动视角。如果你想更改成自由视角的相机的话，那么就现在来实现吧！</p>
+<p>​    这里最主要的就是将<code>Cinemachine</code>插件中的<code>Virtual Camera</code>换成<code>FreeLook Camera</code></p>
+<p>​    因此我们选择原来创建的<code>Virtual Camera</code>，然后将它关闭（如果你已经决定不想使用可以直接删除），具体关闭方法就是取消下图所示的勾勾</p>
+<img src="https://p5.toutiaoimg.com/origin/pgc-image/be709270a95a408ca723e83e24f0df33.png" alt="1.png" style="zoom:80%;" />
+
+<p>​    凡是关闭后的对象在列表中都会变成淡灰色的</p>
+<img src="https://p26.toutiaoimg.com/origin/pgc-image/076433cd57354d968359194bacc2c638.png" alt="2.png" style="zoom:80%;" />
+
+<p>​    之后我们再选中主摄像机，<code>Main Camera</code>，在Unity上方菜单中选择<code>Cinemachine</code>插件列表菜单项👉之后再选择如图第二个选项<code>FreeLook Camera</code></p>
+<img src="https://p3.toutiaoimg.com/origin/pgc-image/487625f3bdce4f8db3115e37d2e53046.png" alt="3.png" style="zoom:80%;" />
+
+
+
+<p>​    创建完毕后，我们将新的相机和旧的相机都命名一下，防止搞混。</p>
+<p>​    我们同样要来选择一下相机的跟踪对象和观察对象，我们把控制人物<code>Player</code>拖进去</p>
+<img src="https://p6.toutiaoimg.com/origin/pgc-image/586146b0a6ab4820958b1903848901a8.png" alt="4.png" style="zoom:80%;" />
+
+<p>​    我们在窗口中可以看到摄像机旁边有上中下三个红色圈圈，同时还有一条弧线包裹住它们，这是代表着我们相机可以在这三个维度里面自由旋转切换摄像机角度，同时可以进行上下角度的切换，我们可以根据喜好来调整这几个圈圈</p>
+<img src="https://p26.toutiaoimg.com/origin/pgc-image/7dacd6ce8f324399aa660d3d593e8e2c.png" alt="5.png" style="zoom:80%;" />
+
+<p>​    然后就是如何来控制摄像机移动了，我们在<code>FreeLook Camera</code>的属性面板中可以看到有个<code>Axis Control</code>的项，在这里我们可以看到控制Y轴移动的是<code>Mouse Y</code>，控制X轴移动的是<code>Mouse X</code>，即默认情况是鼠标移动来控制，我们可以在此修改它</p>
+<img src="https://p6.toutiaoimg.com/origin/pgc-image/d5c98a365df147d79a90ce4fa823e67e.png" alt="6.png" style="zoom:80%;" />
+
+<p>​    我们打开<code>Project Setting...</code>，里面有个<code>Input Manager</code>，在这里就可以修改具体关于<code>Axis</code>按键的设置</p>
+<img src="https://p6.toutiaoimg.com/origin/pgc-image/3d0286059bc547ccabd4c79efcf82bef.png" alt="7.png" style="zoom:80%;" />
+
+<p>​    在Mouse Y下面有一个<code>Mouse ScrollWheel</code>，这个就是鼠标的滚轮，可以利用这个来进行视角的拉远和拉近</p>
+<p>​    还有一个<code>Horizontal</code>的选项，这个可以来控制视角左右移动，并且它可以利用我们提供的自定义按键，如：A和D，只需要在<code>Negative Button</code>和<code>Positive Button</code>分别填入你想要的按键</p>
+<img src="https://p5.toutiaoimg.com/origin/pgc-image/20c6e5d985d34974b7e52ecdafb2ff24.png" alt="8.png" style="zoom:80%;" />
+
+<p>​    自定义好按键之后，我们要把具体的<code>Axes</code>名称复制到摄像机属性面板中，如果测试的时候发现视角移动是反向的可以把<code>Invert</code>可选框的勾勾去掉，转向速度太慢可以修改<code>Speed</code>里的数值</p>
+<p>​    🎈在调试之前可以把<code>Save During Play</code>选上，这样便可以点<code>Game</code>游玩时边玩边调整，并且修改的数据可以保存下来</p>
+<img src="https://p26.toutiaoimg.com/origin/pgc-image/1dd06a7a2f0e49d39f3622ffa4bead06.png" alt="9.png" style="zoom:80%;" />
+
+<p>​    这样，我们的摄像机视角控制就自定义好了</p>
+<p>​    如果发现摄像机离人物太近，我们可以修改以下的参数</p>
+<p>​    <code>Orbits</code>项分别有三个<code>Rig</code>的修改参数框，我们可以在这修改</p>
+<img src="https://p3.toutiaoimg.com/origin/pgc-image/54045622e4a64873846e612a7e679804.png" alt="10.png" style="zoom:80%;" />
+
+<p>​    这里我的参数修改如下</p>
+<img src="https://p6.toutiaoimg.com/origin/pgc-image/eeb5b826c51240e3bcf20c7f1ae81ac3.png" alt="11.png" style="zoom:80%;" />
+
+<p>​    到这我们的自由视角相机就设置好了</p>
+<h1 id="检测人物是否在敌人附近"><a href="#检测人物是否在敌人附近" class="headerlink" title="检测人物是否在敌人附近"></a>检测人物是否在敌人附近</h1><p>​    接下来我们来实现让敌人检测人物是否在它自身的附近</p>
+<p>​    我们打开之前已经写了一点框架的<code>EnemyController.cs</code>代码文件，先修改一下前面声明的<code>enemyStates</code>，将其改为<code>private</code>，因为这个敌人状态是靠后面代码自动改变的，不需要手动来弄，没有必要设成public</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">private</span> <span class="token class-name">EnemyStates</span> enemyStates<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>​    </p>
+<p>​    然后我们可以弄一个变量，表示敌人的可视范围</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token punctuation">[</span><span class="token attribute"><span class="token class-name">Header</span><span class="token attribute-arguments"><span class="token punctuation">(</span><span class="token string">"Basic Settings"</span><span class="token punctuation">)</span></span></span><span class="token punctuation">]</span>
+<span class="token keyword">public</span> <span class="token class-name"><span class="token keyword">float</span></span> sightRadius<span class="token punctuation">;</span><span class="token comment">//敌人的可视范围</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>​    这里我用了一个<code>[Header(&quot;Basic Settings&quot;)]</code>，这样做可以在对象的属性面板有一个划分的作用，以后我们都可以这样来划分一些代码公开给外界的设置项👇</p>
+<img src="https://p26.toutiaoimg.com/origin/pgc-image/6c60b7836bf74b1fb0671f9c2af7253f.png" alt="12.png" style="zoom:80%;" />
+
+
+
+<p>​    然后就到了我们关键的一个部分，写一个检测敌人附近是否有人物的函数，这里是利用了 <a target="_blank" rel="noopener" href="https://docs.unity3d.com/ScriptReference/Physics.OverlapSphere.html">Physics.OverlapSphere</a> 的方法，这个函数检测了一个球体范围内是否有碰撞体，因此我们可以为人物添加一个碰撞体再结合这个方法来实现</p>
+<p>​    我们先来写实现代码</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token return-type class-name"><span class="token keyword">bool</span></span> <span class="token function">FoundPlayer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token class-name">Collider<span class="token punctuation">[</span><span class="token punctuation">]</span></span> colliders <span class="token operator">=</span> Physics<span class="token punctuation">.</span><span class="token function">OverlapSphere</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>transform<span class="token punctuation">.</span>position<span class="token punctuation">,</span>sightRadius<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">//接受一个圆点，一个半径的参数，返回的是碰撞体数组</span>
+    
+    <span class="token keyword">foreach</span><span class="token punctuation">(</span><span class="token class-name">Collider</span> target <span class="token keyword">in</span> colliders<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token comment">//循环碰撞体数组，逐个查找</span>
+
+        <span class="token keyword">if</span><span class="token punctuation">(</span>target<span class="token punctuation">.</span><span class="token function">CompareTag</span><span class="token punctuation">(</span><span class="token string">"Player"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            <span class="token comment">//当前循环到的碰撞体的标签为Player就代表找到人物了</span>
+            <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>​    因为<code>OverlapSphere</code>返回的是碰撞体数组，我们之后只要在这数组中遍历查找是否有标签为<code>Player</code>的对象就行了</p>
+<p>​    然后修改一下之前的<code>SwitchEnemyStates</code>函数</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">SwitchEnemyStates</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token comment">//如果发现player 切换到CHASE</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">FoundPlayer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            enemyStates <span class="token operator">=</span> EnemyStates<span class="token punctuation">.</span>CHASE<span class="token punctuation">;</span>
+            Debug<span class="token punctuation">.</span><span class="token function">LogFormat</span><span class="token punctuation">(</span><span class="token string">"敌人&#123;0&#125;发现了玩家"</span><span class="token punctuation">,</span><span class="token keyword">this</span><span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//测试代码</span>
+        <span class="token punctuation">&#125;</span>
+
+        <span class="token keyword">switch</span><span class="token punctuation">(</span>enemyStates<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            <span class="token keyword">case</span> EnemyStates<span class="token punctuation">.</span>GUARD<span class="token punctuation">:</span>
+                <span class="token keyword">break</span><span class="token punctuation">;</span>
+            <span class="token keyword">case</span> EnemyStates<span class="token punctuation">.</span>PATROL<span class="token punctuation">:</span>
+                <span class="token keyword">break</span><span class="token punctuation">;</span>
+            <span class="token keyword">case</span> EnemyStates<span class="token punctuation">.</span>CHASE<span class="token punctuation">:</span>
+                <span class="token keyword">break</span><span class="token punctuation">;</span>
+            <span class="token keyword">case</span> EnemyStates<span class="token punctuation">.</span>DEAD<span class="token punctuation">:</span>
+                <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<p>​    写完代码后别忘了我们要为人物添加一个碰撞体，这里我选用的就是胶囊碰撞体<code>Capsule Collider</code>，然后调整一下胶囊的大小</p>
+<img src="https://p6.toutiaoimg.com/origin/pgc-image/31bf56dfd4ae4f998acbbc3320e577de.png" alt="13.png" style="zoom:80%;" />
+
+<img src="https://p3.toutiaoimg.com/origin/pgc-image/12273ccf82704bbdb3a69d8ff64a940c.png" alt="15.png" style="zoom:80%;" />
+
+<p>​    最后再把人物的标签设为<code>Player</code>，然后把之前设的公开变量<code>Sight Radius</code>视野范围赋予一个值</p>
+<img src="https://p6.toutiaoimg.com/origin/pgc-image/5fa32863fb39401ba974cd2e18443420.png" alt="14.png" style="zoom:80%;" />
+
+<img src="https://p3.toutiaoimg.com/origin/pgc-image/3892abc4f74f4700b0078adcbe3aa7ac.png" alt="16.png" style="zoom:80%;" />
+
+<p>​    这样我们就完成了敌人范围检测人物的功能了！</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">Sakura.</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://sakura-pub.ltd/UnityNotes/Unity%E7%AC%94%E8%AE%B07-%E4%BF%AE%E6%94%B9%E7%9B%B8%E6%9C%BA%E7%A7%BB%E5%8A%A8%E8%A7%86%E8%A7%92%E4%BB%A5%E5%8F%8A%E8%BF%9B%E4%B8%80%E6%AD%A5%E5%AE%8C%E5%96%84%E6%95%8C%E4%BA%BA/">http://sakura-pub.ltd/UnityNotes/Unity%E7%AC%94%E8%AE%B07-%E4%BF%AE%E6%94%B9%E7%9B%B8%E6%9C%BA%E7%A7%BB%E5%8A%A8%E8%A7%86%E8%A7%92%E4%BB%A5%E5%8F%8A%E8%BF%9B%E4%B8%80%E6%AD%A5%E5%AE%8C%E5%96%84%E6%95%8C%E4%BA%BA/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Unity/">Unity</a></div><div class="post_share"><div class="social-share" data-image="https://p6-tt.byteimg.com/origin/pgc-image/2a23cb4b353e4abc8ff26bc4fd2c1f25.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/UnityNotes/Unity%E7%AC%94%E8%AE%B06-%E5%88%9B%E5%BB%BA%E6%95%8C%E4%BA%BA/"><img class="next-cover" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">Unity笔记6-创建敌人</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> Related Articles</span></div><div class="relatedPosts-list"><div><a href="/UnityNotes/Unity笔记1-熟悉Unity界面以及构建场景/" title="Unity笔记1--熟悉Unity界面以及构建场景"><img class="cover" src="https://p6-tt.byteimg.com/origin/pgc-image/092054ee476c49fabecd4c3abf4965bd.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-01</div><div class="title">Unity笔记1--熟悉Unity界面以及构建场景</div></div></a></div><div><a href="/UnityNotes/Unity笔记2-智能导航的烘焙和鼠标控制人物移动/" title="Unity笔记2--智能导航的烘焙和鼠标控制人物移动"><img class="cover" src="https://p6-tt.byteimg.com/origin/pgc-image/092054ee476c49fabecd4c3abf4965bd.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-05</div><div class="title">Unity笔记2--智能导航的烘焙和鼠标控制人物移动</div></div></a></div><div><a href="/UnityNotes/Unity笔记3-摄像机跟踪处理/" title="Unity笔记3--摄像机跟踪处理"><img class="cover" src="https://p6-tt.byteimg.com/origin/pgc-image/092054ee476c49fabecd4c3abf4965bd.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-09</div><div class="title">Unity笔记3--摄像机跟踪处理</div></div></a></div><div><a href="/UnityNotes/Unity笔记4-设置人物的动画/" title="Unity笔记4--设置人物的动画"><img class="cover" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-10</div><div class="title">Unity笔记4--设置人物的动画</div></div></a></div><div><a href="/UnityNotes/Unity笔记5-剔除人物的遮挡/" title="Unity笔记5--剔除人物的遮挡"><img class="cover" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-12</div><div class="title">Unity笔记5--剔除人物的遮挡</div></div></a></div><div><a href="/UnityNotes/Unity笔记6-创建敌人/" title="Unity笔记6-创建敌人"><img class="cover" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-15</div><div class="title">Unity笔记6-创建敌人</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> Comment</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://p6-tt.byteimg.com/origin/pgc-image/2a23cb4b353e4abc8ff26bc4fd2c1f25.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Sakura.</div><div class="author-info__description">升起的烟花,从下面看?还是从侧面看?</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">8</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">3</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">2</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/KiritoZz6"><i class="fab fa-github"></i><span>关注我</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/KiritoZz6" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="/sakura_zz@163.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>Announcement</span></div><div class="announcement_content">欢迎来到我的个人博客！如果对文章有问题或者发现错误可以发邮件给我，Email：sakura_zz@163.com</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B0%86%E7%9B%B8%E6%9C%BA%E6%94%B9%E6%88%90%E5%8F%AF%E8%87%AA%E7%94%B1%E7%A7%BB%E5%8A%A8%E8%A7%86%E8%A7%92"><span class="toc-number">1.</span> <span class="toc-text">将相机改成可自由移动视角</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A3%80%E6%B5%8B%E4%BA%BA%E7%89%A9%E6%98%AF%E5%90%A6%E5%9C%A8%E6%95%8C%E4%BA%BA%E9%99%84%E8%BF%91"><span class="toc-number">2.</span> <span class="toc-text">检测人物是否在敌人附近</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/UnityNotes/Unity%E7%AC%94%E8%AE%B07-%E4%BF%AE%E6%94%B9%E7%9B%B8%E6%9C%BA%E7%A7%BB%E5%8A%A8%E8%A7%86%E8%A7%92%E4%BB%A5%E5%8F%8A%E8%BF%9B%E4%B8%80%E6%AD%A5%E5%AE%8C%E5%96%84%E6%95%8C%E4%BA%BA/" title="Unity笔记7--修改相机移动视角以及进一步完善敌人">Unity笔记7--修改相机移动视角以及进一步完善敌人</a><time datetime="2021-06-22T05:06:02.000Z" title="Created 2021-06-22 13:06:02">2021-06-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/UnityNotes/Unity%E7%AC%94%E8%AE%B06-%E5%88%9B%E5%BB%BA%E6%95%8C%E4%BA%BA/" title="Unity笔记6-创建敌人">Unity笔记6-创建敌人</a><time datetime="2021-06-15T13:02:24.000Z" title="Created 2021-06-15 21:02:24">2021-06-15</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/UnityNotes/Unity%E7%AC%94%E8%AE%B05-%E5%89%94%E9%99%A4%E4%BA%BA%E7%89%A9%E7%9A%84%E9%81%AE%E6%8C%A1/" title="Unity笔记5--剔除人物的遮挡">Unity笔记5--剔除人物的遮挡</a><time datetime="2021-06-12T07:35:19.000Z" title="Created 2021-06-12 15:35:19">2021-06-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/UnityNotes/Unity%E7%AC%94%E8%AE%B04-%E8%AE%BE%E7%BD%AE%E4%BA%BA%E7%89%A9%E7%9A%84%E5%8A%A8%E7%94%BB/" title="Unity笔记4--设置人物的动画">Unity笔记4--设置人物的动画</a><time datetime="2021-06-10T02:45:45.000Z" title="Created 2021-06-10 10:45:45">2021-06-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/UnityNotes/Unity%E7%AC%94%E8%AE%B03-%E6%91%84%E5%83%8F%E6%9C%BA%E8%B7%9F%E8%B8%AA%E5%A4%84%E7%90%86/" title="Unity笔记3--摄像机跟踪处理"><img src="https://p6-tt.byteimg.com/origin/pgc-image/092054ee476c49fabecd4c3abf4965bd.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Unity笔记3--摄像机跟踪处理"/></a><div class="content"><a class="title" href="/UnityNotes/Unity%E7%AC%94%E8%AE%B03-%E6%91%84%E5%83%8F%E6%9C%BA%E8%B7%9F%E8%B8%AA%E5%A4%84%E7%90%86/" title="Unity笔记3--摄像机跟踪处理">Unity笔记3--摄像机跟踪处理</a><time datetime="2021-06-09T08:13:39.000Z" title="Created 2021-06-09 16:13:39">2021-06-09</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Sakura.</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="Toggle Between Traditional Chinese And Simplified Chinese">繁</button><button id="darkmode" type="button" title="Toggle Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="Scroll To Comments"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'uoCtAtvANzWpqnPNGCNRPK7g-gzGzoHsz',
+      appKey: 'NIjj8lYmojE9cbwXtTlGUh6F',
+      placeholder: '记得留下你的昵称和邮箱....可以快速收到回复',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: false,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script defer src="/live2d-widget/autoload.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js" async="async" mobile="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
