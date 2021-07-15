@@ -1,0 +1,377 @@
+<!DOCTYPE html><html lang="zh-Hans" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Unity笔记9-敌人的随机巡逻 | 🌸樱花酒吧🍻</title><meta name="keywords" content="Unity"><meta name="author" content="Sakura."><meta name="copyright" content="Sakura."><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="​    在上一章节我们实现了敌人的追击效果，也就是敌人的追击状态，而这一章节我们来实现它的巡逻状态效果 实时显示巡逻范围​    由于之后会有一个记录敌人巡逻范围的变量，因此为了方便到时候的设置，这里介绍一个函数可以实时在Scene窗口上显示这个范围出来 ​    因为这个变量是在EnemyController.cs代码文件里声明的，所以我们就直接在此代码文件里用这个函数 public clas">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Unity笔记9-敌人的随机巡逻">
+<meta property="og:url" content="http://sakura-pub.ltd/UnityNotes/Unity%E7%AC%94%E8%AE%B09-%E6%95%8C%E4%BA%BA%E7%9A%84%E9%9A%8F%E6%9C%BA%E5%B7%A1%E9%80%BB/index.html">
+<meta property="og:site_name" content="🌸樱花酒吧🍻">
+<meta property="og:description" content="​    在上一章节我们实现了敌人的追击效果，也就是敌人的追击状态，而这一章节我们来实现它的巡逻状态效果 实时显示巡逻范围​    由于之后会有一个记录敌人巡逻范围的变量，因此为了方便到时候的设置，这里介绍一个函数可以实时在Scene窗口上显示这个范围出来 ​    因为这个变量是在EnemyController.cs代码文件里声明的，所以我们就直接在此代码文件里用这个函数 public clas">
+<meta property="og:locale">
+<meta property="og:image" content="https://p26-tt.byteimg.com/origin/pgc-image/3d4b99e2a2324b1ca07740176fc72342.jpg">
+<meta property="article:published_time" content="2021-07-15T01:15:42.000Z">
+<meta property="article:modified_time" content="2021-07-15T07:56:47.520Z">
+<meta property="article:author" content="Sakura.">
+<meta property="article:tag" content="Unity">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://p26-tt.byteimg.com/origin/pgc-image/3d4b99e2a2324b1ca07740176fc72342.jpg"><link rel="shortcut icon" href="/img/0.png"><link rel="canonical" href="http://sakura-pub.ltd/UnityNotes/Unity%E7%AC%94%E8%AE%B09-%E6%95%8C%E4%BA%BA%E7%9A%84%E9%9A%8F%E6%9C%BA%E5%B7%A1%E9%80%BB/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: 'days',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Unity笔记9-敌人的随机巡逻',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-07-15 15:56:47'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><link rel="stylesheet" href="https://sakura-pub.ltd/css/Sakura.css"><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="🌸樱花酒吧🍻" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">Loading...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://p6-tt.byteimg.com/origin/pgc-image/bef029045c8e4b85a41b875bfa6aaad5.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">10</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">3</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">2</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-archive"></i><span> 目录</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类目录</span></a></li><li><a class="site-page child" href="/Unity%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span> Unity学习笔记</span></a></li><li><a class="site-page child" href="/categories/%E8%AE%B0%E4%BA%8B/"><span> 记事</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/%E8%AE%B0%E4%BA%8B/%E5%85%B3%E4%BA%8E%E6%88%91/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://p26-tt.byteimg.com/origin/pgc-image/3d4b99e2a2324b1ca07740176fc72342.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">🌸樱花酒吧🍻</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-archive"></i><span> 目录</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类目录</span></a></li><li><a class="site-page child" href="/Unity%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span> Unity学习笔记</span></a></li><li><a class="site-page child" href="/categories/%E8%AE%B0%E4%BA%8B/"><span> 记事</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/%E8%AE%B0%E4%BA%8B/%E5%85%B3%E4%BA%8E%E6%88%91/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Unity笔记9-敌人的随机巡逻</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2021-07-15T01:15:42.000Z" title="Created 2021-07-15 09:15:42">2021-07-15</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2021-07-15T07:56:47.520Z" title="Updated 2021-07-15 15:56:47">2021-07-15</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Unity%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">Unity学习笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Unity笔记9-敌人的随机巡逻"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">Comments:</span><a href="/UnityNotes/Unity%E7%AC%94%E8%AE%B09-%E6%95%8C%E4%BA%BA%E7%9A%84%E9%9A%8F%E6%9C%BA%E5%B7%A1%E9%80%BB/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/UnityNotes/Unity%E7%AC%94%E8%AE%B09-%E6%95%8C%E4%BA%BA%E7%9A%84%E9%9A%8F%E6%9C%BA%E5%B7%A1%E9%80%BB/" itemprop="commentCount"></span></a></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>​    在上一章节我们实现了敌人的追击效果，也就是敌人的追击状态，而这一章节我们来实现它的巡逻状态效果</p>
+<h1 id="实时显示巡逻范围"><a href="#实时显示巡逻范围" class="headerlink" title="实时显示巡逻范围"></a>实时显示巡逻范围</h1><p>​    由于之后会有一个记录敌人巡逻范围的变量，因此为了方便到时候的设置，这里介绍一个函数可以实时在<code>Scene</code>窗口上显示这个范围出来</p>
+<p>​    因为这个变量是在<code>EnemyController.cs</code>代码文件里声明的，所以我们就直接在此代码文件里用这个函数</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">EnemyController</span> <span class="token punctuation">:</span> <span class="token type-list"><span class="token class-name">MonoBehaviour</span></span><span class="token punctuation">&#123;</span>
+    <span class="token punctuation">[</span><span class="token attribute"><span class="token class-name">Header</span><span class="token attribute-arguments"><span class="token punctuation">(</span><span class="token string">"Patrol State（巡逻状态的设置项）"</span><span class="token punctuation">)</span></span></span><span class="token punctuation">]</span>
+    <span class="token keyword">public</span> <span class="token class-name"><span class="token keyword">float</span></span> potralRange<span class="token punctuation">;</span><span class="token comment">//巡逻圈的半径大小</span>
+
+    <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">OnDrawGizmosSelected</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        Gizmos<span class="token punctuation">.</span>color <span class="token operator">=</span> Color<span class="token punctuation">.</span>blue<span class="token punctuation">;</span>
+        Gizmos<span class="token punctuation">.</span><span class="token function">DrawWireSphere</span><span class="token punctuation">(</span>transform<span class="token punctuation">.</span>position<span class="token punctuation">,</span>potralRange<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//在敌人当前位置画一个球形范围的线</span>
+    <span class="token punctuation">&#125;</span>
+    
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>​    <code>OnDrawGizmosSelected()</code>是来自于<code>MonoBehaviour</code>类的一个函数，这里代码意思是只要选中了代码所在的对象上就会绘画出一个球形的线，而这个球形的半径就是<code>potralRange</code>，例如当此值调成为2时，球形如下图所示👇</p>
+<img src="https://p26-tt.byteimg.com/origin/pgc-image/8c138a5dc08f44ed92287bc624597238.png" alt="1.png" style="zoom:80%;" />
+
+<p>​    当然你也可以添加其它参数的可视化效果，可以自由发挥</p>
+<h1 id="实现敌人巡逻"><a href="#实现敌人巡逻" class="headerlink" title="实现敌人巡逻"></a>实现敌人巡逻</h1><p>​    接下来就进入正题，如何实现敌人巡逻，我们可以在它设定的巡逻范围内获得一个点，然后再让敌人走过去，反复执行这个动作，就可以让敌人巡逻起来了</p>
+<h2 id="随机获得巡逻范围内的一个点"><a href="#随机获得巡逻范围内的一个点" class="headerlink" title="随机获得巡逻范围内的一个点"></a>随机获得巡逻范围内的一个点</h2><p>​    要获得巡逻范围内的一个点，我们就要有一个Vector3变量来记录这个点，然后每次使用随机数来改变它，所以我们创建一个函数来专门随机获得这个点的值</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token class-name">Vector3</span> wayPoint<span class="token punctuation">;</span><span class="token comment">//敌人巡逻的下一个随机目标点</span>
+
+<span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">GetNewWayPoint</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span><span class="token comment">//获取下一个巡逻的随机目标点</span>
+    <span class="token comment">//Y轴是控制高度的，所以不用获取，保持原来的就行</span>
+    <span class="token comment">//获取的范围时[-potralRange,potralRange]</span>
+    <span class="token class-name"><span class="token keyword">float</span></span> randomX <span class="token operator">=</span> Random<span class="token punctuation">.</span><span class="token function">Range</span><span class="token punctuation">(</span><span class="token operator">-</span>potralRange<span class="token punctuation">,</span>potralRange<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword">float</span></span> randomZ <span class="token operator">=</span> Random<span class="token punctuation">.</span><span class="token function">Range</span><span class="token punctuation">(</span><span class="token operator">-</span>potralRange<span class="token punctuation">,</span>potralRange<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">//在敌人自己本身的坐标点上进行取随机点</span>
+    <span class="token class-name">Vector3</span> randomPoint <span class="token operator">=</span>
+        <span class="token keyword">new</span> <span class="token constructor-invocation class-name">Vector3</span><span class="token punctuation">(</span>transform<span class="token punctuation">.</span>position<span class="token punctuation">.</span>x<span class="token operator">+</span>randomX<span class="token punctuation">,</span>transform<span class="token punctuation">.</span>position<span class="token punctuation">.</span>y<span class="token punctuation">,</span>transform<span class="token punctuation">.</span>position<span class="token punctuation">.</span>z<span class="token operator">+</span>randomZ<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token comment">//FIXME:有可能出现问题</span>
+    wayPoint <span class="token operator">=</span> randomPoint<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>​    由于Y轴是记录敌人所在的高度的，所以这里暂时不用获取随机数，保持原来效果</p>
+<p>​    同时上面代码中给标记了一个FIXME，有可能出现一个问题，我们先放一边到时候再来发现修改</p>
+<h2 id="修改状态切换"><a href="#修改状态切换" class="headerlink" title="修改状态切换"></a>修改状态切换</h2><p>​    获取了随机点后，我们还要回到<code>SwitchStates()</code>函数中修改一下状态的衔接</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">switch</span><span class="token punctuation">(</span>enemyStates<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+  	<span class="token keyword">case</span> EnemyStates<span class="token punctuation">.</span>PATROL<span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span>巡逻
+        isChase <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span><span class="token comment">//不是追逐动画</span>
+        agent<span class="token punctuation">.</span>speed <span class="token operator">=</span> speed<span class="token operator">*</span><span class="token number">0.5f</span><span class="token punctuation">;</span><span class="token comment">//巡逻速度是追逐速度的一半</span>
+
+        <span class="token keyword">if</span><span class="token punctuation">(</span>Vector3<span class="token punctuation">.</span><span class="token function">Distance</span><span class="token punctuation">(</span>wayPoint<span class="token punctuation">,</span>transform<span class="token punctuation">.</span>position<span class="token punctuation">)</span> <span class="token operator">&lt;=</span> agent<span class="token punctuation">.</span>stoppingDistance<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            <span class="token comment">//如果下一个巡逻点和当前人物的坐标点小于等于可移动距离则不移动</span>
+
+            isWalk <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span><span class="token comment">//不播放走路的动画</span>
+            <span class="token function">GetNewWayPoint</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//获取下一个巡逻点随机数</span>
+
+        <span class="token punctuation">&#125;</span><span class="token keyword">else</span><span class="token punctuation">&#123;</span>
+            <span class="token comment">//满足行走条件</span>
+
+            isWalk <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span><span class="token comment">//敌人动画改为走路动画</span>
+            agent<span class="token punctuation">.</span>destination <span class="token operator">=</span> wayPoint<span class="token punctuation">;</span>
+
+        <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>​    上面就是判断到敌人为巡逻状态时要做的事情，里面还有一个if语句是用于判断如果下一个巡逻的点小于或等于导航组件可以移动的范围时就不移动，再获得下一个巡逻点</p>
+<p>🎄而 <a target="_blank" rel="noopener" href="https://docs.unity.cn/cn/2020.3/ScriptReference/AI.NavMeshAgent-stoppingDistance.html">stoppingDistance</a> 是<code>Nav Mesh Agent</code>组件里的一个属性，代表<code>停止距离</code>，即如果给定的目的点与当前点的距离小于这个值的话，敌人时不会进行移动的，这个值我们也可以在属性面板中进行调整</p>
+<img src="https://p5-tt.byteimg.com/origin/pgc-image/107272d76d03463c8012565f3e821a87.png" alt="2.png" style="zoom:80%;" />
+
+
+
+<p>​    了解到这些之后我们继续回到代码中，我们写了巡逻状态时要做的事情，那么我们该怎样判断并进入巡逻状态呢？下面我们就来写一下这些代码</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token punctuation">[</span><span class="token attribute"><span class="token class-name">Header</span><span class="token attribute-arguments"><span class="token punctuation">(</span><span class="token string">"Basic Settings"</span><span class="token punctuation">)</span></span></span><span class="token punctuation">]</span>
+<span class="token comment">//...</span>
+<span class="token keyword">public</span> <span class="token class-name"><span class="token keyword">bool</span></span> isGuard<span class="token punctuation">;</span><span class="token comment">//当前敌人是否为警卫（警戒状态）</span>
+
+<span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token comment">//开始游戏时先检测是否勾选了守卫状态</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>isGuard<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        enemyStates <span class="token operator">=</span> EnemyStates<span class="token punctuation">.</span>GUARD<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span><span class="token keyword">else</span><span class="token punctuation">&#123;</span>
+        enemyStates <span class="token operator">=</span> EnemyStates<span class="token punctuation">.</span>PATROL<span class="token punctuation">;</span>
+        <span class="token function">GetNewWayPoint</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//防止开始时巡逻点是空的默认走到地图(0,0,0)位置</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>​    这里我们新建了一个公开的布尔值变量<code>isGuard</code>，可以直接在属性面板勾选，用来判断当前敌人是否为一个守卫，如果为守卫就不会进行巡逻了</p>
+<p>​    在弄好这些之后，敌人巡逻的基本功能就实现了，现在我们就可以去试玩一下了</p>
+<h2 id="修复一些问题"><a href="#修复一些问题" class="headerlink" title="修复一些问题"></a>修复一些问题</h2><p>​    在试玩的过程中，会出现一些问题，我们下面就来修复它们</p>
+<h3 id="敌人巡逻的范围越来越远"><a href="#敌人巡逻的范围越来越远" class="headerlink" title="敌人巡逻的范围越来越远"></a>敌人巡逻的范围越来越远</h3><p>​    首先是敌人巡逻范围的问题，如果只依照上面的代码我们会发现敌人的巡逻范围会越来越远，这是因为取随机坐标点的代码逻辑考虑不对劲</p>
+<p>​    我们回到上面的标有FIXME代码块中</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token comment">//在敌人自己本身的坐标点上进行取随机点</span>
+    <span class="token class-name">Vector3</span> randomPoint <span class="token operator">=</span>
+        <span class="token keyword">new</span> <span class="token constructor-invocation class-name">Vector3</span><span class="token punctuation">(</span>transform<span class="token punctuation">.</span>position<span class="token punctuation">.</span>x<span class="token operator">+</span>randomX<span class="token punctuation">,</span>transform<span class="token punctuation">.</span>position<span class="token punctuation">.</span>y<span class="token punctuation">,</span>transform<span class="token punctuation">.</span>position<span class="token punctuation">.</span>z<span class="token operator">+</span>randomZ<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>​    出现问题的就是在上面这一句代码，我们取到的下一个随机目标点是基于敌人现在的位置基础上的，也就是每次取到的随机点都与现在位置相加，这就不对了，如果一直往同一个方向相加，只会导致敌人走的越来越远</p>
+<p>​    因此这里<strong>不应该</strong><code>transform.position+xxx</code></p>
+<p>​    </p>
+<p>​    那么解决方案怎么样做呢？我们可以在游戏开始初始化把当前敌人所在的位置记录下来，然后每次取随机点是基于这个点来进行坐标相加的</p>
+<p>​    同时这个坐标点也不止在巡逻状态这里用得到，我们在守卫状态下也需要这个初始坐标点，守卫状态下如果追击敌人脱战之后，我们必须让敌人回到这个初始坐标点继续守卫</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">private</span> <span class="token class-name">Vector3</span> puardPos<span class="token punctuation">;</span><span class="token comment">//当前敌人游戏开始时的初始位置</span>
+
+<span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Awake</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token comment">//...</span>
+ 	guardPos <span class="token operator">=</span> guardPos <span class="token operator">=</span> transform<span class="token punctuation">.</span>position<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">GetNewWayPoint</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token comment">//...</span>
+    <span class="token class-name">Vector3</span> randomPoint <span class="token operator">=</span>
+        <span class="token keyword">new</span> <span class="token constructor-invocation class-name">Vector3</span><span class="token punctuation">(</span>guardPos<span class="token punctuation">.</span>x<span class="token operator">+</span>randomX<span class="token punctuation">,</span>transform<span class="token punctuation">.</span>position<span class="token punctuation">.</span>y<span class="token punctuation">,</span>guardPos<span class="token punctuation">.</span>z<span class="token operator">+</span>randomZ<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   
+    <span class="token comment">//...</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>​    按照上面的代码修改，我们就解决了这个问题</p>
+<p>​    🎈<strong>要注意</strong>：新的坐标点的Y轴还是以敌人当前位置为基础的</p>
+<h3 id="敌人移动卡住"><a href="#敌人移动卡住" class="headerlink" title="敌人移动卡住"></a>敌人移动卡住</h3><p>​    第二个可能遇到的问题就是可能敌人走着走着会突然给卡住，但它仍然处于移动状态，这可能是因为所获取的目标点为<strong>不可移动区域</strong>造成的，例如树木、石头所在的点</p>
+<img src="https://p5-tt.byteimg.com/origin/pgc-image/e5d07eb926e74385a3d3454bf171703c.png" alt="3.png" style="zoom:80%;" />
+
+<p>​    因此解决方法就是我们在获取点之后要判断一下所获得的点是否为到达的点，如果不是就再获取一遍</p>
+<p>​    这里可以用到 <a target="_blank" rel="noopener" href="https://docs.unity.cn/cn/2020.3/ScriptReference/AI.NavMeshAgent.html">NavMeshAgent</a> 的一个方法 <a target="_blank" rel="noopener" href="https://docs.unity.cn/cn/2020.3/ScriptReference/AI.NavMeshAgent.SamplePathPosition.html">SamplePathPosition()</a> ，可以帮助我们来判断敌人到目标点是否可以行走，我们回到<code>GetNewWayPoint()</code>函数中</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">GetNewWayPoint</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span><span class="token comment">//获取下一个巡逻的随机目标点</span>
+    <span class="token comment">//Y轴是控制高度的，所以不用获取，保持原来的就行</span>
+    <span class="token comment">//获取的范围时[-potralRange,potralRange]</span>
+    <span class="token class-name"><span class="token keyword">float</span></span> randomX <span class="token operator">=</span> Random<span class="token punctuation">.</span><span class="token function">Range</span><span class="token punctuation">(</span><span class="token operator">-</span>potralRange<span class="token punctuation">,</span>potralRange<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword">float</span></span> randomZ <span class="token operator">=</span> Random<span class="token punctuation">.</span><span class="token function">Range</span><span class="token punctuation">(</span><span class="token operator">-</span>potralRange<span class="token punctuation">,</span>potralRange<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token class-name">Vector3</span> randomPoint <span class="token operator">=</span>
+        <span class="token keyword">new</span> <span class="token constructor-invocation class-name">Vector3</span><span class="token punctuation">(</span>guardPos<span class="token punctuation">.</span>x<span class="token operator">+</span>randomX<span class="token punctuation">,</span>transform<span class="token punctuation">.</span>position<span class="token punctuation">.</span>y<span class="token punctuation">,</span>guardPos<span class="token punctuation">.</span>z<span class="token operator">+</span>randomZ<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">//检测下个点是否可行</span>
+    <span class="token class-name">NavMeshHit</span> hit<span class="token punctuation">;</span>
+    wayPoint <span class="token operator">=</span><span class="token comment">//如果新的目标点可以到达则赋值，否则则把敌人当前所在点赋值</span>
+        NavMesh<span class="token punctuation">.</span><span class="token function">SamplePosition</span><span class="token punctuation">(</span>randomPoint<span class="token punctuation">,</span><span class="token keyword">out</span> hit<span class="token punctuation">,</span>potralRange<span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">?</span> hit<span class="token punctuation">.</span>position <span class="token punctuation">:</span> transform<span class="token punctuation">.</span>position<span class="token punctuation">;</span>
+    <span class="token comment">//提供一个参考点，输出属性的网格信息</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>​    这样我们就解决了敌人会卡住的问题</p>
+<h3 id="增加敌人等待时间"><a href="#增加敌人等待时间" class="headerlink" title="增加敌人等待时间"></a>增加敌人等待时间</h3><p>​    还有一个可以完善的地方就是敌人在移动到一个新的点后，它会立即又前往下一个地点，这里可以为它增加一些等待时间</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token punctuation">[</span><span class="token attribute"><span class="token class-name">Header</span><span class="token attribute-arguments"><span class="token punctuation">(</span><span class="token string">"Patrol State（巡逻状态的设置项）"</span><span class="token punctuation">)</span></span></span><span class="token punctuation">]</span>
+<span class="token comment">//...</span>
+<span class="token keyword">public</span> <span class="token class-name"><span class="token keyword">float</span></span> lookAtTime<span class="token punctuation">;</span><span class="token comment">//敌人到达一个点停留的时间</span>
+<span class="token keyword">private</span> <span class="token class-name"><span class="token keyword">float</span></span> remainLookAtTime<span class="token punctuation">;</span><span class="token comment">//还剩下的停留时间</span>
+
+<span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">SwitchEnemyStates</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+<span class="token comment">//...</span>
+    <span class="token keyword">switch</span><span class="token punctuation">(</span>enemyStates<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">FoundPlayer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+                enemyStates <span class="token operator">=</span> EnemyStates<span class="token punctuation">.</span>CHASE<span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span><span class="token keyword">else</span><span class="token punctuation">&#123;</span>
+                <span class="token comment">//脱离战斗后判断回到守卫状态还是巡逻状态</span>
+                enemyStates <span class="token operator">=</span> isGuard <span class="token punctuation">?</span> EnemyStates<span class="token punctuation">.</span>GUARD <span class="token punctuation">:</span> EnemyStates<span class="token punctuation">.</span>PATROL<span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+
+            <span class="token comment">//判断是否到了随机巡逻点</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span>Vector3<span class="token punctuation">.</span><span class="token function">Distance</span><span class="token punctuation">(</span>wayPoint<span class="token punctuation">,</span>transform<span class="token punctuation">.</span>position<span class="token punctuation">)</span> <span class="token operator">&lt;=</span> agent<span class="token punctuation">.</span>stoppingDistance<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+                <span class="token comment">//如果下一个巡逻点和当前人物的坐标点小于等于可移动距离则不移动</span>
+                isWalk <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span><span class="token comment">//不播放走路的动画</span>
+
+                <span class="token keyword">if</span><span class="token punctuation">(</span>remainLookAtTime <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token comment">//如果剩余等待时间大于0则继续等待</span>
+                    remainLookAtTime <span class="token operator">-=</span> Time<span class="token punctuation">.</span>deltaTime<span class="token punctuation">;</span>
+                <span class="token keyword">else</span>
+                    <span class="token function">GetNewWayPoint</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//获取下一个巡逻点随机数</span>
+
+            <span class="token punctuation">&#125;</span><span class="token keyword">else</span><span class="token punctuation">&#123;</span>
+                <span class="token comment">//满足行走条件</span>
+
+                isWalk <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span><span class="token comment">//敌人动画改为走路动画</span>
+                agent<span class="token punctuation">.</span>destination <span class="token operator">=</span> wayPoint<span class="token punctuation">;</span>
+
+            <span class="token punctuation">&#125;</span>
+
+            <span class="token keyword">break</span><span class="token punctuation">;</span><span class="token comment">//PATROL</span>
+    <span class="token punctuation">&#125;</span>
+	<span class="token comment">//...</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">GetNewWayPoint</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span><span class="token comment">//获取下一个巡逻的随机目标点</span>
+    remainLookAtTime <span class="token operator">=</span> lookAtTime<span class="token punctuation">;</span><span class="token comment">//重置剩余等待时间</span>
+
+    <span class="token comment">//...</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<p>​    上面代码中我们添加了两个变量，<code>lookAtTime</code>表示需要等待时间的长度（可供外界进行调整），<code>remainLookAtTime</code>表示当前敌人还剩余的等待时间，然后我们在<code>SwitchEnemyStates()</code>函数里的追击状态中判断敌人到达了目标点就开始逐帧递减<code>remainLookAtTime</code>，当减到小于0敌人才会开始走动，同时再一次调用<code>GetNewWayPoint()</code>时会重置<code>remainLookAtTime</code></p>
+<p>​    🎈注意：<code>lookAtTime</code>的单位是<strong>秒</strong></p>
+<p>​    在switch代码前面还添加了一条语句用来判断脱离战斗后敌人回到守卫状态还是巡逻状态，这可以让我们敌人更加完善</p>
+<p>​    到这里，本章的目的就实现了，我们让敌人随机巡逻了起来，快去游戏中试试吧！</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">Sakura.</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://sakura-pub.ltd/UnityNotes/Unity%E7%AC%94%E8%AE%B09-%E6%95%8C%E4%BA%BA%E7%9A%84%E9%9A%8F%E6%9C%BA%E5%B7%A1%E9%80%BB/">http://sakura-pub.ltd/UnityNotes/Unity%E7%AC%94%E8%AE%B09-%E6%95%8C%E4%BA%BA%E7%9A%84%E9%9A%8F%E6%9C%BA%E5%B7%A1%E9%80%BB/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Unity/">Unity</a></div><div class="post_share"><div class="social-share" data-image="https://p26-tt.byteimg.com/origin/pgc-image/3d4b99e2a2324b1ca07740176fc72342.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/UnityNotes/Unity%E7%AC%94%E8%AE%B08-%E4%B8%BA%E6%95%8C%E4%BA%BA%E6%B7%BB%E5%8A%A0%E8%BF%BD%E5%87%BB%E6%95%88%E6%9E%9C%E4%BB%A5%E5%8F%8A%E5%8A%A8%E7%94%BB%E5%88%87%E6%8D%A2%E7%AE%A1%E7%90%86/"><img class="next-cover" src="https://p26-tt.byteimg.com/origin/pgc-image/86ee283d4a6c40c5b115faf39622d4da.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">Unity笔记8--为敌人添加追击效果以及动画切换管理</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> Related Articles</span></div><div class="relatedPosts-list"><div><a href="/UnityNotes/Unity笔记1-熟悉Unity界面以及构建场景/" title="Unity笔记1--熟悉Unity界面以及构建场景"><img class="cover" src="https://p9.toutiaoimg.com/origin/pgc-image/0e0921df138341d7addb3e0e4451ddfa.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-01</div><div class="title">Unity笔记1--熟悉Unity界面以及构建场景</div></div></a></div><div><a href="/UnityNotes/Unity笔记2-智能导航的烘焙和鼠标控制人物移动/" title="Unity笔记2--智能导航的烘焙和鼠标控制人物移动"><img class="cover" src="https://p6.toutiaoimg.com/origin/pgc-image/03d79f4a381f4e678763fd56bd6959f4.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-05</div><div class="title">Unity笔记2--智能导航的烘焙和鼠标控制人物移动</div></div></a></div><div><a href="/UnityNotes/Unity笔记3-摄像机跟踪处理/" title="Unity笔记3--摄像机跟踪处理"><img class="cover" src="https://p5.toutiaoimg.com/origin/pgc-image/39804c123b79464ca6f3fc832f93f7ff.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-09</div><div class="title">Unity笔记3--摄像机跟踪处理</div></div></a></div><div><a href="/UnityNotes/Unity笔记4-设置人物的动画/" title="Unity笔记4--设置人物的动画"><img class="cover" src="https://p26.toutiaoimg.com/origin/pgc-image/7a38471c54864a65bb26e2b3017d822b.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-10</div><div class="title">Unity笔记4--设置人物的动画</div></div></a></div><div><a href="/UnityNotes/Unity笔记5-剔除人物的遮挡/" title="Unity笔记5--剔除人物的遮挡"><img class="cover" src="https://p9.toutiaoimg.com/origin/pgc-image/fd863fab5e2341759fb6128cd3750844.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-12</div><div class="title">Unity笔记5--剔除人物的遮挡</div></div></a></div><div><a href="/UnityNotes/Unity笔记6-创建敌人/" title="Unity笔记6-创建敌人"><img class="cover" src="https://p26.toutiaoimg.com/origin/pgc-image/fdca273f682e453d8985555ee09b8ca1.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-15</div><div class="title">Unity笔记6-创建敌人</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> Comment</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://p6-tt.byteimg.com/origin/pgc-image/bef029045c8e4b85a41b875bfa6aaad5.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Sakura.</div><div class="author-info__description">升起的烟花,从下面看?还是从侧面看?</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">10</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">3</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">2</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/KiritoZz6"><i class="fab fa-github"></i><span>关注我</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/KiritoZz6" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="/sakura_zz@163.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>Announcement</span></div><div class="announcement_content">欢迎来到我的个人博客！如果对文章有问题或者发现错误可以发邮件给我，Email：sakura_zz@163.com</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E6%97%B6%E6%98%BE%E7%A4%BA%E5%B7%A1%E9%80%BB%E8%8C%83%E5%9B%B4"><span class="toc-number">1.</span> <span class="toc-text">实时显示巡逻范围</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E6%95%8C%E4%BA%BA%E5%B7%A1%E9%80%BB"><span class="toc-number">2.</span> <span class="toc-text">实现敌人巡逻</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9A%8F%E6%9C%BA%E8%8E%B7%E5%BE%97%E5%B7%A1%E9%80%BB%E8%8C%83%E5%9B%B4%E5%86%85%E7%9A%84%E4%B8%80%E4%B8%AA%E7%82%B9"><span class="toc-number">2.1.</span> <span class="toc-text">随机获得巡逻范围内的一个点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E7%8A%B6%E6%80%81%E5%88%87%E6%8D%A2"><span class="toc-number">2.2.</span> <span class="toc-text">修改状态切换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%AE%E5%A4%8D%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98"><span class="toc-number">2.3.</span> <span class="toc-text">修复一些问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%8C%E4%BA%BA%E5%B7%A1%E9%80%BB%E7%9A%84%E8%8C%83%E5%9B%B4%E8%B6%8A%E6%9D%A5%E8%B6%8A%E8%BF%9C"><span class="toc-number">2.3.1.</span> <span class="toc-text">敌人巡逻的范围越来越远</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%8C%E4%BA%BA%E7%A7%BB%E5%8A%A8%E5%8D%A1%E4%BD%8F"><span class="toc-number">2.3.2.</span> <span class="toc-text">敌人移动卡住</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A2%9E%E5%8A%A0%E6%95%8C%E4%BA%BA%E7%AD%89%E5%BE%85%E6%97%B6%E9%97%B4"><span class="toc-number">2.3.3.</span> <span class="toc-text">增加敌人等待时间</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/UnityNotes/Unity%E7%AC%94%E8%AE%B09-%E6%95%8C%E4%BA%BA%E7%9A%84%E9%9A%8F%E6%9C%BA%E5%B7%A1%E9%80%BB/" title="Unity笔记9-敌人的随机巡逻"><img src="https://p26-tt.byteimg.com/origin/pgc-image/3d4b99e2a2324b1ca07740176fc72342.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Unity笔记9-敌人的随机巡逻"/></a><div class="content"><a class="title" href="/UnityNotes/Unity%E7%AC%94%E8%AE%B09-%E6%95%8C%E4%BA%BA%E7%9A%84%E9%9A%8F%E6%9C%BA%E5%B7%A1%E9%80%BB/" title="Unity笔记9-敌人的随机巡逻">Unity笔记9-敌人的随机巡逻</a><time datetime="2021-07-15T01:15:42.000Z" title="Created 2021-07-15 09:15:42">2021-07-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/UnityNotes/Unity%E7%AC%94%E8%AE%B08-%E4%B8%BA%E6%95%8C%E4%BA%BA%E6%B7%BB%E5%8A%A0%E8%BF%BD%E5%87%BB%E6%95%88%E6%9E%9C%E4%BB%A5%E5%8F%8A%E5%8A%A8%E7%94%BB%E5%88%87%E6%8D%A2%E7%AE%A1%E7%90%86/" title="Unity笔记8--为敌人添加追击效果以及动画切换管理"><img src="https://p26-tt.byteimg.com/origin/pgc-image/86ee283d4a6c40c5b115faf39622d4da.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Unity笔记8--为敌人添加追击效果以及动画切换管理"/></a><div class="content"><a class="title" href="/UnityNotes/Unity%E7%AC%94%E8%AE%B08-%E4%B8%BA%E6%95%8C%E4%BA%BA%E6%B7%BB%E5%8A%A0%E8%BF%BD%E5%87%BB%E6%95%88%E6%9E%9C%E4%BB%A5%E5%8F%8A%E5%8A%A8%E7%94%BB%E5%88%87%E6%8D%A2%E7%AE%A1%E7%90%86/" title="Unity笔记8--为敌人添加追击效果以及动画切换管理">Unity笔记8--为敌人添加追击效果以及动画切换管理</a><time datetime="2021-07-12T08:58:41.000Z" title="Created 2021-07-12 16:58:41">2021-07-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/UnityNotes/Unity%E7%AC%94%E8%AE%B07-%E4%BF%AE%E6%94%B9%E7%9B%B8%E6%9C%BA%E7%A7%BB%E5%8A%A8%E8%A7%86%E8%A7%92%E4%BB%A5%E5%8F%8A%E6%B7%BB%E5%8A%A0%E6%95%8C%E4%BA%BA%E8%8C%83%E5%9B%B4%E6%A3%80%E6%B5%8B/" title="Unity笔记7--修改相机移动视角以及添加敌人范围检测"><img src="https://p6.toutiaoimg.com/origin/pgc-image/849f67fb31fc4ea88829c9d131b9a226.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Unity笔记7--修改相机移动视角以及添加敌人范围检测"/></a><div class="content"><a class="title" href="/UnityNotes/Unity%E7%AC%94%E8%AE%B07-%E4%BF%AE%E6%94%B9%E7%9B%B8%E6%9C%BA%E7%A7%BB%E5%8A%A8%E8%A7%86%E8%A7%92%E4%BB%A5%E5%8F%8A%E6%B7%BB%E5%8A%A0%E6%95%8C%E4%BA%BA%E8%8C%83%E5%9B%B4%E6%A3%80%E6%B5%8B/" title="Unity笔记7--修改相机移动视角以及添加敌人范围检测">Unity笔记7--修改相机移动视角以及添加敌人范围检测</a><time datetime="2021-06-22T05:06:02.000Z" title="Created 2021-06-22 13:06:02">2021-06-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/UnityNotes/Unity%E7%AC%94%E8%AE%B06-%E5%88%9B%E5%BB%BA%E6%95%8C%E4%BA%BA/" title="Unity笔记6-创建敌人"><img src="https://p26.toutiaoimg.com/origin/pgc-image/fdca273f682e453d8985555ee09b8ca1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Unity笔记6-创建敌人"/></a><div class="content"><a class="title" href="/UnityNotes/Unity%E7%AC%94%E8%AE%B06-%E5%88%9B%E5%BB%BA%E6%95%8C%E4%BA%BA/" title="Unity笔记6-创建敌人">Unity笔记6-创建敌人</a><time datetime="2021-06-15T13:02:24.000Z" title="Created 2021-06-15 21:02:24">2021-06-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/UnityNotes/Unity%E7%AC%94%E8%AE%B05-%E5%89%94%E9%99%A4%E4%BA%BA%E7%89%A9%E7%9A%84%E9%81%AE%E6%8C%A1/" title="Unity笔记5--剔除人物的遮挡"><img src="https://p9.toutiaoimg.com/origin/pgc-image/fd863fab5e2341759fb6128cd3750844.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Unity笔记5--剔除人物的遮挡"/></a><div class="content"><a class="title" href="/UnityNotes/Unity%E7%AC%94%E8%AE%B05-%E5%89%94%E9%99%A4%E4%BA%BA%E7%89%A9%E7%9A%84%E9%81%AE%E6%8C%A1/" title="Unity笔记5--剔除人物的遮挡">Unity笔记5--剔除人物的遮挡</a><time datetime="2021-06-12T07:35:19.000Z" title="Created 2021-06-12 15:35:19">2021-06-12</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Sakura.</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="Toggle Between Traditional Chinese And Simplified Chinese">繁</button><button id="darkmode" type="button" title="Toggle Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="Scroll To Comments"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'uoCtAtvANzWpqnPNGCNRPK7g-gzGzoHsz',
+      appKey: 'NIjj8lYmojE9cbwXtTlGUh6F',
+      placeholder: '记得留下你的昵称和邮箱....可以快速收到回复',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: false,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script defer src="/live2d-widget/autoload.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js" async="async" mobile="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
