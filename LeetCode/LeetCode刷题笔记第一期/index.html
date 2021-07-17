@@ -1,0 +1,293 @@
+<!DOCTYPE html><html lang="zh-Hans" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LeetCode刷题笔记第一期 | 🌸樱花酒吧🍻</title><meta name="keywords" content="LeetCode"><meta name="author" content="Sakura."><meta name="copyright" content="Sakura."><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="LeetCode刷题笔记第一期前言之前一直想在刷题的时候把想要记下的笔记记下来，但是没有找到很好的地方，但是现在有了博客之后就可以写在这的 写这个刷题笔记一个是想时不时回来巩固一下算法，另一个是想记录下自己的算法能力成长的过程，同时也是想为实习做准备 写这个笔记是大二暑假时期，之前也有一些算法基础，参加过的算法相关竞赛只有一次蓝桥杯，只拿到省赛二等奖，也希望能够通过刷题和做笔记能够有所长进 本人算">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LeetCode刷题笔记第一期">
+<meta property="og:url" content="http://sakura-pub.ltd/LeetCode/LeetCode%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0%E7%AC%AC%E4%B8%80%E6%9C%9F/index.html">
+<meta property="og:site_name" content="🌸樱花酒吧🍻">
+<meta property="og:description" content="LeetCode刷题笔记第一期前言之前一直想在刷题的时候把想要记下的笔记记下来，但是没有找到很好的地方，但是现在有了博客之后就可以写在这的 写这个刷题笔记一个是想时不时回来巩固一下算法，另一个是想记录下自己的算法能力成长的过程，同时也是想为实习做准备 写这个笔记是大二暑假时期，之前也有一些算法基础，参加过的算法相关竞赛只有一次蓝桥杯，只拿到省赛二等奖，也希望能够通过刷题和做笔记能够有所长进 本人算">
+<meta property="og:locale">
+<meta property="og:image" content="https://p6-tt.byteimg.com/origin/pgc-image/2082d6b2afed4da6a0720e50564c352d.jpg">
+<meta property="article:published_time" content="2021-07-17T15:54:05.000Z">
+<meta property="article:modified_time" content="2021-07-17T15:59:06.651Z">
+<meta property="article:author" content="Sakura.">
+<meta property="article:tag" content="LeetCode">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://p6-tt.byteimg.com/origin/pgc-image/2082d6b2afed4da6a0720e50564c352d.jpg"><link rel="shortcut icon" href="/img/0.png"><link rel="canonical" href="http://sakura-pub.ltd/LeetCode/LeetCode%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0%E7%AC%AC%E4%B8%80%E6%9C%9F/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: 'days',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'LeetCode刷题笔记第一期',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-07-17 23:59:06'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><link rel="stylesheet" href="https://sakura-pub.ltd/css/Sakura.css"><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="🌸樱花酒吧🍻" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">Loading...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://p6-tt.byteimg.com/origin/pgc-image/bef029045c8e4b85a41b875bfa6aaad5.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">13</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">4</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">3</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-archive"></i><span> 目录</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类目录</span></a></li><li><a class="site-page child" href="/Unity%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span> Unity学习笔记</span></a></li><li><a class="site-page child" href="/categories/%E8%AE%B0%E4%BA%8B/"><span> 记事</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/%E8%AE%B0%E4%BA%8B/%E5%85%B3%E4%BA%8E%E6%88%91/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://p6-tt.byteimg.com/origin/pgc-image/2082d6b2afed4da6a0720e50564c352d.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">🌸樱花酒吧🍻</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-archive"></i><span> 目录</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类目录</span></a></li><li><a class="site-page child" href="/Unity%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span> Unity学习笔记</span></a></li><li><a class="site-page child" href="/categories/%E8%AE%B0%E4%BA%8B/"><span> 记事</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/%E8%AE%B0%E4%BA%8B/%E5%85%B3%E4%BA%8E%E6%88%91/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">LeetCode刷题笔记第一期</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2021-07-17T15:54:05.000Z" title="Created 2021-07-17 23:54:05">2021-07-17</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2021-07-17T15:59:06.651Z" title="Updated 2021-07-17 23:59:06">2021-07-17</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/LeetCode%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/">LeetCode刷题笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="LeetCode刷题笔记第一期"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">Comments:</span><a href="/LeetCode/LeetCode%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0%E7%AC%AC%E4%B8%80%E6%9C%9F/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/LeetCode/LeetCode%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0%E7%AC%AC%E4%B8%80%E6%9C%9F/" itemprop="commentCount"></span></a></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="LeetCode刷题笔记第一期"><a href="#LeetCode刷题笔记第一期" class="headerlink" title="LeetCode刷题笔记第一期"></a>LeetCode刷题笔记第一期</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>之前一直想在刷题的时候把想要记下的笔记记下来，但是没有找到很好的地方，但是现在有了博客之后就可以写在这的</p>
+<p>写这个刷题笔记一个是想时不时回来巩固一下算法，另一个是想记录下自己的算法能力成长的过程，同时也是想为实习做准备</p>
+<p>写这个笔记是大二暑假时期，之前也有一些算法基础，参加过的算法相关竞赛只有一次蓝桥杯，只拿到省赛二等奖，也希望能够通过刷题和做笔记能够有所长进</p>
+<p>本人算法能力不是很强，一般都要想好一阵子，所以一般写出来的答案不是很好，望大佬们轻喷</p>
+<p>✨注：我写算法的语言主打C++</p>
+<p>那么，就开始吧！</p>
+<hr>
+<h2 id="452-用最少数量的箭引爆气球"><a href="#452-用最少数量的箭引爆气球" class="headerlink" title="452.用最少数量的箭引爆气球"></a>452.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/minimum-number-of-arrows-to-burst-balloons/">用最少数量的箭引爆气球</a></h2><p>在二维空间中有许多球形的气球。对于每个气球，提供的输入是水平方向上，气球直径的开始和结束坐标。由于它是水平的，所以纵坐标并不重要，因此只要知道开始和结束的横坐标就足够了。开始坐标总是小于结束坐标。</p>
+<p>一支弓箭可以沿着 x 轴从不同点完全垂直地射出。在坐标 x 处射出一支箭，若有一个气球的直径的开始和结束坐标为 <code>xstart</code>，<code>xend</code>， 且满足  <code>xstart</code> ≤ x ≤ <code>xend</code>，则该气球会被引爆。可以射出的弓箭的数量没有限制。 弓箭一旦被射出之后，可以无限地前进。我们想找到使得所有气球全部被引爆，所需的弓箭的最小数量。</p>
+<p>给你一个数组 points ，其中 points [i] = [xstart,xend] ，返回引爆所有气球所必须射出的最小弓箭数。</p>
+<p>示例：</p>
+<blockquote>
+<p>输入：points = [[10,16],[2,8],[1,6],[7,12]]<br>输出：2<br>解释：对于该样例，x = 6 可以射爆 [2,8],[1,6] 两个气球，以及 x = 11 射爆另外两个气球</p>
+</blockquote>
+<p>这一题拿到题目时看了好几次都看不懂题目，看了一下别人画的图才明白题的意思，和另外题 <code>435. 无重叠区间</code>有点相似</p>
+<p>我们可以在每一次射击箭的时候尽量往用少一点的方向去想，当气球重叠时便一起射，这是局部最优，然后每次局部最优所造成的就是全局最优，射完全部气球所用的弓箭是最少，这便可以用贪心算法来求解</p>
+<p>借用官方解答所给的图来解释</p>
+<p><img src="https://assets.leetcode-cn.com/solution-static/452/1.png"></p>
+<p>当把弓箭挪到右区间最小的时候（如第三个图的蓝色）就可以一箭四雕，因为题目所给的条件<code>xstart</code> ≤ x ≤ <code>xend</code>时气球就会给射爆，这里包含了边界值条件，所以在闭区间位置也满足</p>
+<p>因此我就有了基本思路，先把这些气球排列，然后从第二个气球遍历，每次与前一个气球作比较，如果两个气球区间相交，那就可以略过当前气球进入下一次比较（做个标记，代表可以在这一个弓箭射完），具体如何略过看代码；如果气球不相交了，那就证明要用多一发弓箭了，此时弓箭数要加一，然后继续往下比较</p>
+<p>下面是自己参考别人解答后写出来的代码：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">&#123;</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token keyword">static</span> <span class="token keyword">inline</span> <span class="token keyword">bool</span> <span class="token function">VecSort</span><span class="token punctuation">(</span><span class="token keyword">const</span> vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span><span class="token operator">&amp;</span>a<span class="token punctuation">,</span><span class="token keyword">const</span> vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span><span class="token operator">&amp;</span>b<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>a<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token operator">&lt;</span>b<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+            <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">int</span> <span class="token function">findMinArrowShots</span><span class="token punctuation">(</span>vector<span class="token operator">&lt;</span>vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">>></span><span class="token operator">&amp;</span> points<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">int</span> size <span class="token operator">=</span> points<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span>size<span class="token punctuation">)</span><span class="token comment">//数组为空</span>
+            <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+
+        <span class="token function">sort</span><span class="token punctuation">(</span>points<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>points<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>VecSort<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//按气球起点进行从小到大排序</span>
+
+        <span class="token keyword">int</span> res <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span><span class="token comment">//返回结果，不为空至少需要一只箭</span>
+
+        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span>size<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            <span class="token comment">//从前往后遍历气球</span>
+
+            <span class="token keyword">if</span><span class="token punctuation">(</span>points<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token operator">></span>points<span class="token punctuation">[</span>i<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+                <span class="token comment">//当前气球与前一个气球不重叠</span>
+                res<span class="token operator">++</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span><span class="token keyword">else</span><span class="token punctuation">&#123;</span>
+                <span class="token comment">//重叠则跳过当前气球</span>
+                <span class="token comment">//（利用闭区间最右位置可以射到的规则让其长度变短，以达到可跳过的当前气球目的）</span>
+                points<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token operator">=</span>std<span class="token operator">::</span><span class="token function">min</span><span class="token punctuation">(</span>points<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span>points<span class="token punctuation">[</span>i<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+
+        <span class="token punctuation">&#125;</span>
+
+        <span class="token keyword">return</span> res<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这样做出来之后时间复杂度为<em>O(nlogn)<em>因为用了个快排，空间复杂度为</em>O(1)</em></p>
+<img src="https://p6-tt.byteimg.com/origin/pgc-image/3af7d43845b04870bda4754ca1805c0e.jpg" alt="452.jpg" style="zoom:80%;" />
+
+<hr>
+<h2 id="763-划分字母区间"><a href="#763-划分字母区间" class="headerlink" title="763. 划分字母区间"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/partition-labels/">763. 划分字母区间</a></h2><p>字符串 <code>S</code> 由小写字母组成。我们要把这个字符串划分为尽可能多的片段，同一字母最多出现在一个片段中。返回一个表示每个字符串片段的长度的列表。</p>
+<p>示例：</p>
+<blockquote>
+<p>输入：S = “ababcbacadefegdehijhklij”<br>输出：[9,7,8]<br>解释：<br>划分结果为 “ababcbaca”, “defegde”, “hijhklij”。<br>每个字母最多出现在一个片段中。<br>像 “ababcbacadefegde”, “hijhklij” 的划分是错误的，因为划分的片段数较少。</p>
+</blockquote>
+<p>这种题型第一次见，不怎么会，因为尽可能地要划分多个区域，从而达到某个或多个字母只出现在这片区域中，那么就可以先记录下每个字母最后出现的位置</p>
+<p>然后再次遍历字符串，不断更新标识符<code>end</code>，该标识符指向的是当前遍历过的字母中，最持久的字符最后出现的位置，也相当于是这片区域最后的位置，所以我们只用找出这个标识符最终的位置就能够划分一个区域出来了</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">&#123;</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+    vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> <span class="token function">partitionLabels</span><span class="token punctuation">(</span>string s<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">int</span> str_size <span class="token operator">=</span> s<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span>str_size<span class="token punctuation">)</span>
+            <span class="token keyword">return</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+        <span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>str_size <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">)</span>
+            <span class="token keyword">return</span> <span class="token punctuation">&#123;</span><span class="token number">1</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+        vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span>res<span class="token punctuation">;</span>
+        <span class="token keyword">int</span> map<span class="token punctuation">[</span><span class="token number">26</span><span class="token punctuation">]</span><span class="token punctuation">;</span><span class="token comment">//记录每个字母最后出现的位置</span>
+        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span>str_size<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            map<span class="token punctuation">[</span>s<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">-</span><span class="token string">'a'</span><span class="token punctuation">]</span><span class="token operator">=</span>i<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+
+        <span class="token keyword">int</span> start<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span><span class="token keyword">int</span> end<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span><span class="token comment">//记录分割数据的开头和结尾位置</span>
+        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span>str_size<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            end <span class="token operator">=</span> std<span class="token operator">::</span><span class="token function">max</span><span class="token punctuation">(</span>end<span class="token punctuation">,</span>map<span class="token punctuation">[</span>s<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">-</span><span class="token string">'a'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//贪心策略地方，尽可能找到字母最后出现的位置从而划分区域</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span>i <span class="token operator">==</span> end<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+                <span class="token comment">//如果找到之前遍历过的所有字母的最远边界，说明这个边界就是分割点了</span>
+                res<span class="token punctuation">.</span><span class="token function">push_back</span><span class="token punctuation">(</span>end<span class="token operator">-</span>start<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                start <span class="token operator">=</span> end <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+
+        <span class="token keyword">return</span> res<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>时间复杂度<em>O(n)<em>，空间复杂度</em>O(1)</em></p>
+<img src="https://p5-tt.byteimg.com/origin/pgc-image/c6d28e63caa845aba5e8479b6f016d58.jpg" alt="763.jpg" style="zoom:80%;" />
+
+
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">Sakura.</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://sakura-pub.ltd/LeetCode/LeetCode%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0%E7%AC%AC%E4%B8%80%E6%9C%9F/">http://sakura-pub.ltd/LeetCode/LeetCode%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0%E7%AC%AC%E4%B8%80%E6%9C%9F/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/LeetCode/">LeetCode</a></div><div class="post_share"><div class="social-share" data-image="https://p6-tt.byteimg.com/origin/pgc-image/2082d6b2afed4da6a0720e50564c352d.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/UnityNotes/Unity%E7%AC%94%E8%AE%B011-%E6%B7%BB%E5%8A%A0%E6%94%BB%E5%87%BB%E5%B1%9E%E6%80%A7/"><img class="next-cover" src="https://p26-tt.byteimg.com/origin/pgc-image/d1773cbd3a0d45688d6eda5b6dcf8f7a.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">Unity笔记11-添加攻击属性</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> Comment</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://p6-tt.byteimg.com/origin/pgc-image/bef029045c8e4b85a41b875bfa6aaad5.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Sakura.</div><div class="author-info__description">升起的烟花,从下面看?还是从侧面看?</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">13</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">4</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">3</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/KiritoZz6"><i class="fab fa-github"></i><span>关注我</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/KiritoZz6" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="/sakura_zz@163.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>Announcement</span></div><div class="announcement_content">欢迎来到我的个人博客！如果对文章有问题或者发现错误可以发邮件给我，Email：sakura_zz@163.com</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#LeetCode%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0%E7%AC%AC%E4%B8%80%E6%9C%9F"><span class="toc-number">1.</span> <span class="toc-text">LeetCode刷题笔记第一期</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#452-%E7%94%A8%E6%9C%80%E5%B0%91%E6%95%B0%E9%87%8F%E7%9A%84%E7%AE%AD%E5%BC%95%E7%88%86%E6%B0%94%E7%90%83"><span class="toc-number">1.2.</span> <span class="toc-text">452.用最少数量的箭引爆气球</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#763-%E5%88%92%E5%88%86%E5%AD%97%E6%AF%8D%E5%8C%BA%E9%97%B4"><span class="toc-number">1.3.</span> <span class="toc-text">763. 划分字母区间</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/LeetCode/LeetCode%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0%E7%AC%AC%E4%B8%80%E6%9C%9F/" title="LeetCode刷题笔记第一期"><img src="https://p6-tt.byteimg.com/origin/pgc-image/2082d6b2afed4da6a0720e50564c352d.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="LeetCode刷题笔记第一期"/></a><div class="content"><a class="title" href="/LeetCode/LeetCode%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0%E7%AC%AC%E4%B8%80%E6%9C%9F/" title="LeetCode刷题笔记第一期">LeetCode刷题笔记第一期</a><time datetime="2021-07-17T15:54:05.000Z" title="Created 2021-07-17 23:54:05">2021-07-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/UnityNotes/Unity%E7%AC%94%E8%AE%B011-%E6%B7%BB%E5%8A%A0%E6%94%BB%E5%87%BB%E5%B1%9E%E6%80%A7/" title="Unity笔记11-添加攻击属性"><img src="https://p26-tt.byteimg.com/origin/pgc-image/d1773cbd3a0d45688d6eda5b6dcf8f7a.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Unity笔记11-添加攻击属性"/></a><div class="content"><a class="title" href="/UnityNotes/Unity%E7%AC%94%E8%AE%B011-%E6%B7%BB%E5%8A%A0%E6%94%BB%E5%87%BB%E5%B1%9E%E6%80%A7/" title="Unity笔记11-添加攻击属性">Unity笔记11-添加攻击属性</a><time datetime="2021-07-17T01:11:59.000Z" title="Created 2021-07-17 09:11:59">2021-07-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/UnityNotes/Unity%E7%AC%94%E8%AE%B010-%E4%B8%BA%E4%BA%BA%E7%89%A9%E6%B7%BB%E5%8A%A0%E5%B1%9E%E6%80%A7/" title="Unity笔记10-为人物添加属性"><img src="https://p5-tt.byteimg.com/origin/pgc-image/a854d3cef5a142d3966be7e8670d5be1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Unity笔记10-为人物添加属性"/></a><div class="content"><a class="title" href="/UnityNotes/Unity%E7%AC%94%E8%AE%B010-%E4%B8%BA%E4%BA%BA%E7%89%A9%E6%B7%BB%E5%8A%A0%E5%B1%9E%E6%80%A7/" title="Unity笔记10-为人物添加属性">Unity笔记10-为人物添加属性</a><time datetime="2021-07-16T07:37:04.000Z" title="Created 2021-07-16 15:37:04">2021-07-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/UnityNotes/Unity%E7%AC%94%E8%AE%B09-%E6%95%8C%E4%BA%BA%E7%9A%84%E9%9A%8F%E6%9C%BA%E5%B7%A1%E9%80%BB/" title="Unity笔记9-敌人的随机巡逻"><img src="https://p26-tt.byteimg.com/origin/pgc-image/3d4b99e2a2324b1ca07740176fc72342.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Unity笔记9-敌人的随机巡逻"/></a><div class="content"><a class="title" href="/UnityNotes/Unity%E7%AC%94%E8%AE%B09-%E6%95%8C%E4%BA%BA%E7%9A%84%E9%9A%8F%E6%9C%BA%E5%B7%A1%E9%80%BB/" title="Unity笔记9-敌人的随机巡逻">Unity笔记9-敌人的随机巡逻</a><time datetime="2021-07-15T01:15:42.000Z" title="Created 2021-07-15 09:15:42">2021-07-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/UnityNotes/Unity%E7%AC%94%E8%AE%B08-%E4%B8%BA%E6%95%8C%E4%BA%BA%E6%B7%BB%E5%8A%A0%E8%BF%BD%E5%87%BB%E6%95%88%E6%9E%9C%E4%BB%A5%E5%8F%8A%E5%8A%A8%E7%94%BB%E5%88%87%E6%8D%A2%E7%AE%A1%E7%90%86/" title="Unity笔记8--为敌人添加追击效果以及动画切换管理"><img src="https://p26-tt.byteimg.com/origin/pgc-image/86ee283d4a6c40c5b115faf39622d4da.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Unity笔记8--为敌人添加追击效果以及动画切换管理"/></a><div class="content"><a class="title" href="/UnityNotes/Unity%E7%AC%94%E8%AE%B08-%E4%B8%BA%E6%95%8C%E4%BA%BA%E6%B7%BB%E5%8A%A0%E8%BF%BD%E5%87%BB%E6%95%88%E6%9E%9C%E4%BB%A5%E5%8F%8A%E5%8A%A8%E7%94%BB%E5%88%87%E6%8D%A2%E7%AE%A1%E7%90%86/" title="Unity笔记8--为敌人添加追击效果以及动画切换管理">Unity笔记8--为敌人添加追击效果以及动画切换管理</a><time datetime="2021-07-12T08:58:41.000Z" title="Created 2021-07-12 16:58:41">2021-07-12</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Sakura.</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="Toggle Between Traditional Chinese And Simplified Chinese">繁</button><button id="darkmode" type="button" title="Toggle Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="Scroll To Comments"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'uoCtAtvANzWpqnPNGCNRPK7g-gzGzoHsz',
+      appKey: 'NIjj8lYmojE9cbwXtTlGUh6F',
+      placeholder: '记得留下你的昵称和邮箱....可以快速收到回复',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: false,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script defer src="/live2d-widget/autoload.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js" async="async" mobile="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
