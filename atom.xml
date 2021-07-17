@@ -6,7 +6,7 @@
   <link href="http://sakura-pub.ltd/atom.xml" rel="self"/>
   
   <link href="http://sakura-pub.ltd/"/>
-  <updated>2021-07-15T07:56:47.520Z</updated>
+  <updated>2021-07-17T01:46:16.765Z</updated>
   <id>http://sakura-pub.ltd/</id>
   
   <author>
@@ -15,6 +15,56 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Unity笔记11-添加攻击属性</title>
+    <link href="http://sakura-pub.ltd/UnityNotes/Unity%E7%AC%94%E8%AE%B011-%E6%B7%BB%E5%8A%A0%E6%94%BB%E5%87%BB%E5%B1%9E%E6%80%A7/"/>
+    <id>http://sakura-pub.ltd/UnityNotes/Unity%E7%AC%94%E8%AE%B011-%E6%B7%BB%E5%8A%A0%E6%94%BB%E5%87%BB%E5%B1%9E%E6%80%A7/</id>
+    <published>2021-07-17T01:11:59.000Z</published>
+    <updated>2021-07-17T01:46:16.765Z</updated>
+    
+    <content type="html"><![CDATA[<p> 在这一章节中我们来给</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt; 在这一章节中我们来给&lt;/p&gt;
+</summary>
+      
+    
+    
+    
+    <category term="Unity学习笔记" scheme="http://sakura-pub.ltd/categories/Unity%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    
+    
+    <category term="Unity" scheme="http://sakura-pub.ltd/tags/Unity/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Unity笔记10-为人物添加属性</title>
+    <link href="http://sakura-pub.ltd/UnityNotes/Unity%E7%AC%94%E8%AE%B010-%E4%B8%BA%E4%BA%BA%E7%89%A9%E6%B7%BB%E5%8A%A0%E5%B1%9E%E6%80%A7/"/>
+    <id>http://sakura-pub.ltd/UnityNotes/Unity%E7%AC%94%E8%AE%B010-%E4%B8%BA%E4%BA%BA%E7%89%A9%E6%B7%BB%E5%8A%A0%E5%B1%9E%E6%80%A7/</id>
+    <published>2021-07-16T07:37:04.000Z</published>
+    <updated>2021-07-16T09:55:36.320Z</updated>
+    
+    <content type="html"><![CDATA[<p>🎈<strong>注意</strong>：从这一章开始，笔记内容会在一些比较简单的地方进行简略</p><h1 id="认识Scriptable-Object"><a href="#认识Scriptable-Object" class="headerlink" title="认识Scriptable Object"></a>认识Scriptable Object</h1><p>这一章开始我们会频繁地使用代码以及更多地<code>ScriptableObject</code>起来，什么是Scriptable Object呢？就像下图我们的<code>Pipeline Setting</code>文件夹下的东西就是我们一种Scriptable Object实现方式</p><img src="https://p3-tt.byteimg.com/origin/pgc-image/158275c63e164f448921282c6cefad4a.png" alt="1.png" style="zoom:80%;" /><p>关于它的更多特性可以上网搜索资料，这里不过多描述</p><p>那么我们这次就拿它来给我们的人物包括敌人创建一些基本的属性值，如：血量、防御值等等</p><h1 id="为人物添加属性值"><a href="#为人物添加属性值" class="headerlink" title="为人物添加属性值"></a>为人物添加属性值</h1><p>首先要在<code>Scripts</code>文件夹创建一些文件夹以便日后管理</p><img src="https://p3-tt.byteimg.com/origin/pgc-image/5a19a7e92b1e41d1ad6996dbb1a0563a.png" alt="2.png" style="zoom:80%;" /><p>两个文件夹分别是存放挂载（MonoBehavior）与建立（ScriptableObject）我们的Scriptable Object的代码文件用的</p><p>除了上面的两个文件夹外，还有专门有用来存放<code>ScriptableObject</code>数据的文件夹</p><img src="https://p6-tt.byteimg.com/origin/pgc-image/dd8e1a4b80a646f5835de7c6834b4f19.png" alt="3.png" style="zoom:80%;" /><h2 id="创建专门存放属性值的Scriptable-Object"><a href="#创建专门存放属性值的Scriptable-Object" class="headerlink" title="创建专门存放属性值的Scriptable Object"></a>创建专门存放属性值的Scriptable Object</h2><p>之后再在<code>Charcter States/ScriptableObject</code>文件夹下新建个代码脚本文件<code>CharcterData_SO.cs</code></p><p>代码内容如下</p><pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token comment">//添加右键菜单</span><span class="token punctuation">[</span><span class="token function">CreateAssetMenu</span><span class="token punctuation">(</span>fileName <span class="token operator">=</span> <span class="token string">"New Data"</span><span class="token punctuation">,</span>menuName <span class="token operator">=</span> <span class="token string">"Charcter States/Data"</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">CharcterData_SO</span> <span class="token punctuation">:</span> <span class="token type-list"><span class="token class-name">ScriptableObject</span></span><span class="token comment">//注意这个类继承的是ScriptableObject类</span><span class="token punctuation">&#123;</span>    <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>这一段代码可以在右键菜单中添加一个选项</p><img src="https://p3-tt.byteimg.com/origin/pgc-image/54d3f5656d33441fa14682fcf33ee71f.png" alt="4.1.png" style="zoom:80%;" /><p>创建出来的就是一个基于<code>CharcterData_SO</code>的ScriptableObject，我们将其命名为<code>Player Data</code></p><img src="https://p3-tt.byteimg.com/origin/pgc-image/5ff5985ea4a742efa56703027a071053.png" alt="4.png" style="zoom:80%;" /><img src="https://p26-tt.byteimg.com/origin/pgc-image/b6c7ca8158fb45f89fa331bffdba9eba.png" alt="5.png" style="zoom:80%;" /><p>这个时候还是什么都没有的，我们重新打开<code>CharcterData_SO.cs</code>继续填写代码</p><pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token comment">//添加右键菜单</span><span class="token punctuation">[</span><span class="token function">CreateAssetMenu</span><span class="token punctuation">(</span>fileName <span class="token operator">=</span> <span class="token string">"New Data"</span><span class="token punctuation">,</span>menuName <span class="token operator">=</span> <span class="token string">"Charcter States/Data"</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">CharcterData_SO</span> <span class="token punctuation">:</span> <span class="token type-list"><span class="token class-name">ScriptableObject</span></span><span class="token punctuation">&#123;</span>    <span class="token punctuation">[</span><span class="token attribute"><span class="token class-name">Header</span><span class="token attribute-arguments"><span class="token punctuation">(</span><span class="token string">"States Info（属性信息）"</span><span class="token punctuation">)</span></span></span><span class="token punctuation">]</span>    <span class="token keyword">public</span> <span class="token class-name"><span class="token keyword">int</span></span> maxHealth<span class="token punctuation">;</span><span class="token comment">//最大生命值</span>    <span class="token keyword">public</span> <span class="token class-name"><span class="token keyword">int</span></span> currentHealthl<span class="token punctuation">;</span><span class="token comment">//当前生命值</span>    <span class="token keyword">public</span> <span class="token class-name"><span class="token keyword">int</span></span> baseDefence<span class="token punctuation">;</span><span class="token comment">//基础防御值</span>    <span class="token keyword">public</span> <span class="token class-name"><span class="token keyword">int</span></span> currentDefence<span class="token punctuation">;</span><span class="token comment">//当前防御值</span>    <span class="token comment">//攻击力比较复杂，打算分开写，这里暂时不写着先</span><span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>这里我们赋予了4个属性，当Unity编译之后在我们刚刚新创建的<code>Player Data</code>就有了改变，多了几个属性值出来</p><img src="https://p3-tt.byteimg.com/origin/pgc-image/a9cdd098cf54461a8f0387b00d539f9b.png" alt="6.png" style="zoom:80%;" /><h2 id="挂载Scriptable-Object"><a href="#挂载Scriptable-Object" class="headerlink" title="挂载Scriptable Object"></a>挂载Scriptable Object</h2><p>那么有了存放的ScriptableObject之后，我们还要想办法将其运用（即挂载）到人物身上，方便数据之间的读取</p><p>我们在<code>Charcter States/MonoBehavior</code>中新建一个代码脚本，命名为<code>CharcterStates.cs</code></p><pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">CharcterStates</span> <span class="token punctuation">:</span> <span class="token type-list"><span class="token class-name">MonoBehaviour</span></span><span class="token punctuation">&#123;</span>    <span class="token keyword">public</span> <span class="token class-name">CharcterData_SO</span> charcterData<span class="token punctuation">;</span>        <span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">int</span></span> MaxHealth<span class="token punctuation">&#123;</span>        <span class="token keyword">get</span><span class="token punctuation">&#123;</span><span class="token comment">//取值属性</span>            <span class="token keyword">if</span><span class="token punctuation">(</span>charcterData <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span>                <span class="token keyword">return</span> charcterData<span class="token punctuation">.</span>maxHealth<span class="token punctuation">;</span>            <span class="token keyword">else</span> <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>        <span class="token punctuation">&#125;</span>        <span class="token keyword">set</span><span class="token punctuation">&#123;</span><span class="token comment">//赋值属性</span>            charcterData<span class="token punctuation">.</span>maxHealth <span class="token operator">=</span> <span class="token keyword">value</span><span class="token punctuation">;</span>        <span class="token punctuation">&#125;</span>    <span class="token punctuation">&#125;</span>    <span class="token comment">//TODO:照上面模式写出其它几个属性值</span><span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>代码中用到了C#的<strong>属性</strong>，即<code>get</code>和<code>set</code>来读取或写入人物的最大生命值，剩下的几个属性值也是同样方法来写</p><p>写好之后我们保存一下代码，将代码文件当作组件添加到人物上面</p><img src="https://p5-tt.byteimg.com/origin/pgc-image/4ccad37c1e6e4765a5459eef8bf7e044.png" alt="7.png" style="zoom:80%;" /><p>可以看到它需要接受一个<code>CharcterData_SO</code>类型的</p><p>​    </p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;🎈&lt;strong&gt;注意&lt;/strong&gt;：从这一章开始，笔记内容会在一些比较简单的地方进行简略&lt;/p&gt;
+&lt;h1 id=&quot;认识Scriptable-Object&quot;&gt;&lt;a href=&quot;#认识Scriptable-Object&quot; class=&quot;headerlink&quot; title</summary>
+      
+    
+    
+    
+    <category term="Unity学习笔记" scheme="http://sakura-pub.ltd/categories/Unity%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    
+    
+    <category term="Unity" scheme="http://sakura-pub.ltd/tags/Unity/"/>
+    
+  </entry>
   
   <entry>
     <title>Unity笔记9-敌人的随机巡逻</title>
