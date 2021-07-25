@@ -6,7 +6,7 @@
   <link href="http://sakura-pub.ltd/atom.xml" rel="self"/>
   
   <link href="http://sakura-pub.ltd/"/>
-  <updated>2021-07-23T03:47:43.441Z</updated>
+  <updated>2021-07-25T06:52:30.857Z</updated>
   <id>http://sakura-pub.ltd/</id>
   
   <author>
@@ -15,6 +15,55 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Unity笔记19-设置石头人</title>
+    <link href="http://sakura-pub.ltd/UnityNotes/Unity%E7%AC%94%E8%AE%B019-%E8%AE%BE%E7%BD%AE%E7%9F%B3%E5%A4%B4%E4%BA%BA/"/>
+    <id>http://sakura-pub.ltd/UnityNotes/Unity%E7%AC%94%E8%AE%B019-%E8%AE%BE%E7%BD%AE%E7%9F%B3%E5%A4%B4%E4%BA%BA/</id>
+    <published>2021-07-25T04:09:19.000Z</published>
+    <updated>2021-07-25T06:52:30.857Z</updated>
+    
+    <content type="html"><![CDATA[<p>这一章节我们来设置石头人，由于和设置兽人相差不大，篇幅比较少</p><h1 id="设置动画"><a href="#设置动画" class="headerlink" title="设置动画"></a>设置动画</h1><p>我们去浏览石头人的动画可以发现，<code>Attack01</code>是类似拿起石头丢我们，它才是技能攻击，而<code>Attack02</code>是击晕玩家的攻击动画，可以作为普通攻击来使，因此我们在调整攻击动画时要注意分清</p><p>我们的动画控制器文件就选择是基于<code>兽人</code>的动画来完成，创建一个<code>New Animator Override Controller</code>，模板选择为兽人，然后再一个个动画替换上去</p><img src="https://p3-tt.byteimg.com/origin/pgc-image/cbf3634f05844a5f98fed856698b1a5a.png" alt="1.png" style="zoom:80%;" /><p>其中<code>Run</code>并没有自带动画，我们可以用<code>Walk</code>代替</p><h1 id="编写代码文件"><a href="#编写代码文件" class="headerlink" title="编写代码文件"></a>编写代码文件</h1><p>我们像兽人代码文件那样单独创一个代码文件给石头人用，并且也是要继承<code>EnemyController</code></p><pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Golem</span> <span class="token punctuation">:</span> <span class="token type-list"><span class="token class-name">EnemyController</span></span><span class="token punctuation">&#123;</span>    <span class="token punctuation">[</span><span class="token attribute"><span class="token class-name">Header</span><span class="token attribute-arguments"><span class="token punctuation">(</span><span class="token string">"Skill（石头人特殊攻击设置）"</span><span class="token punctuation">)</span></span></span><span class="token punctuation">]</span>    <span class="token keyword">public</span> <span class="token class-name"><span class="token keyword">float</span></span> kickForce <span class="token operator">=</span> <span class="token number">20</span><span class="token punctuation">;</span><span class="token comment">//推开敌人距离</span>    <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">kickOff</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>        <span class="token comment">//石头人击飞玩家</span>        <span class="token keyword">if</span><span class="token punctuation">(</span>attackTarget <span class="token operator">!=</span> <span class="token keyword">null</span> <span class="token operator">&amp;&amp;</span> transform<span class="token punctuation">.</span><span class="token function">IsFacingTarget</span><span class="token punctuation">(</span>attackTarget<span class="token punctuation">.</span>transform<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>            <span class="token class-name"><span class="token keyword">var</span></span> targetState <span class="token operator">=</span> attackTarget<span class="token punctuation">.</span><span class="token generic-method"><span class="token function">GetComponent</span><span class="token generic class-name"><span class="token punctuation">&lt;</span>CharacterStates<span class="token punctuation">></span></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>            transform<span class="token punctuation">.</span><span class="token function">LookAt</span><span class="token punctuation">(</span>attackTarget<span class="token punctuation">.</span>transform<span class="token punctuation">)</span><span class="token punctuation">;</span>            <span class="token class-name">Vector3</span> direction <span class="token operator">=</span> <span class="token punctuation">(</span>attackTarget<span class="token punctuation">.</span>transform<span class="token punctuation">.</span>position <span class="token operator">-</span> transform<span class="token punctuation">.</span>position<span class="token punctuation">)</span><span class="token punctuation">.</span>normalized<span class="token punctuation">;</span>            attackTarget<span class="token punctuation">.</span><span class="token generic-method"><span class="token function">GetComponent</span><span class="token generic class-name"><span class="token punctuation">&lt;</span>NavMeshAgent<span class="token punctuation">></span></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>isStopped <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>            attackTarget<span class="token punctuation">.</span><span class="token generic-method"><span class="token function">GetComponent</span><span class="token generic class-name"><span class="token punctuation">&lt;</span>NavMeshAgent<span class="token punctuation">></span></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>velocity <span class="token operator">=</span> direction<span class="token operator">*</span>kickForce<span class="token punctuation">;</span>            targetState<span class="token punctuation">.</span><span class="token function">TakeDamage</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>characterStates<span class="token punctuation">,</span>targetState<span class="token punctuation">)</span><span class="token punctuation">;</span>        <span class="token punctuation">&#125;</span>    <span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>最后再添加动画事件就行了</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;这一章节我们来设置石头人，由于和设置兽人相差不大，篇幅比较少&lt;/p&gt;
+&lt;h1 id=&quot;设置动画&quot;&gt;&lt;a href=&quot;#设置动画&quot; class=&quot;headerlink&quot; title=&quot;设置动画&quot;&gt;&lt;/a&gt;设置动画&lt;/h1&gt;&lt;p&gt;我们去浏览石头人的动画可以发现，&lt;code&gt;At</summary>
+      
+    
+    
+    
+    <category term="Unity学习笔记" scheme="http://sakura-pub.ltd/categories/Unity%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    
+    
+    <category term="Unity" scheme="http://sakura-pub.ltd/tags/Unity/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Unity笔记18-扩展方法</title>
+    <link href="http://sakura-pub.ltd/UnityNotes/Unity%E7%AC%94%E8%AE%B018-%E6%89%A9%E5%B1%95%E6%96%B9%E6%B3%95/"/>
+    <id>http://sakura-pub.ltd/UnityNotes/Unity%E7%AC%94%E8%AE%B018-%E6%89%A9%E5%B1%95%E6%96%B9%E6%B3%95/</id>
+    <published>2021-07-24T04:55:12.000Z</published>
+    <updated>2021-07-24T06:02:15.450Z</updated>
+    
+    <content type="html"><![CDATA[<p>这一章我们来熟悉一下扩展方法，所谓扩展方法就是在不继承一个类，但是可以额外编写一个类来扩展这个类的功能，比如这一章我们想让我们控制主角在兽人后面时兽人攻击不会造成伤害，这里就要用到<code>transfrom</code>类，但是<code>transfrom</code>里边没有这个方法，我们就要来扩展它</p><h1 id="扩展方法"><a href="#扩展方法" class="headerlink" title="扩展方法"></a>扩展方法</h1><p>要想我们的兽人敌人对身后玩家造成不了伤害，我们就可以来写一个方法，这个方法专门来判断玩家是否在兽人正前方扇形区域，如果在则返回<code>true</code>否则返回<code>false</code>，然后我们可以将这个方法加到计算伤害的<code>Hit()</code>函数里边进行一个判断，玩家在兽人视野范围内就造成伤害，反之不造成</p><p>这个扩展方法我们创建一个新的代码文件</p><img src="https://p9-tt.byteimg.com/origin/pgc-image/1d4a90fb719d4281b68a709f01232cd2.png" alt="1.png" style="zoom:80%;" /><p>打开编写它</p><pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">class</span> <span class="token class-name">ExtensionMethod</span><span class="token punctuation">&#123;</span>    <span class="token comment">//扩展方法类</span>    <span class="token keyword">private</span> <span class="token keyword">const</span> <span class="token class-name"><span class="token keyword">float</span></span> dotThreshold <span class="token operator">=</span> <span class="token number">0.5f</span><span class="token punctuation">;</span> <span class="token comment">//视野范围大小</span>    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">bool</span></span> <span class="token function">IsFacingTarget</span><span class="token punctuation">(</span><span class="token keyword">this</span> <span class="token class-name">Transform</span> transform <span class="token punctuation">,</span> <span class="token class-name">Transform</span> target<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>        <span class="token comment">//判断目标是否在视野范围内</span>        <span class="token class-name"><span class="token keyword">var</span></span> vectorToTarget <span class="token operator">=</span> target<span class="token punctuation">.</span>position <span class="token operator">-</span> transform<span class="token punctuation">.</span>position<span class="token punctuation">;</span><span class="token comment">//获得敌人和玩家的相对位置</span>        vectorToTarget<span class="token punctuation">.</span><span class="token function">Normalize</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//向量化</span>        <span class="token comment">//Dot:两个矢量的点积。 点积是一个浮点值，等于两个矢量的大小相乘，然后乘以它们之间的角度的余弦。</span>        <span class="token class-name"><span class="token keyword">float</span></span> dot <span class="token operator">=</span> Vector3<span class="token punctuation">.</span><span class="token function">Dot</span><span class="token punctuation">(</span>transform<span class="token punctuation">.</span>forward<span class="token punctuation">,</span>vectorToTarget<span class="token punctuation">)</span><span class="token punctuation">;</span>        <span class="token keyword">return</span> dot <span class="token operator">></span> dotThreshold<span class="token punctuation">;</span><span class="token comment">//如果玩家在敌人夹角120°(cos120 = 0.5)视野范围内则返回true</span>    <span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>这里我们使用<code>Vector3.Dot()</code>方法，官方API在<a href="http://docs.unity3d.com/ScriptReference/Vector3.Dot.html">这里</a>，同时也用了<code>transform.forward</code>来表示敌人面对的方向</p><p>同时还要注意到参数有个<code>this</code>，这样可以让方法加入到<code>Transform</code>类里面，变成它的一个方法</p><img src="https://p9-tt.byteimg.com/origin/pgc-image/f180df5587214500b2f7e3cb8e63072a.png" alt="2.png" style="zoom:80%;" /><p>最后我们回到<code>Hit()</code>函数中，把判断条件加上就完成了</p><pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Hit</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>    <span class="token comment">//由于在敌人追主角的过程中主角可能会跑开，这时候如果攻击的话目标就丢失了</span>    <span class="token comment">//所以我们在攻击前判断目标是否为空，以防报错</span>    <span class="token comment">//同时还判断了玩家是否在敌人的视野范围内，在的话才造成伤害</span>    <span class="token keyword">if</span><span class="token punctuation">(</span>attackTarget <span class="token operator">!=</span> <span class="token keyword">null</span> <span class="token operator">&amp;&amp;</span> transform<span class="token punctuation">.</span><span class="token function">IsFacingTarget</span><span class="token punctuation">(</span>attackTarget<span class="token punctuation">.</span>transform<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>        <span class="token class-name"><span class="token keyword">var</span></span> targetStates <span class="token operator">=</span> attackTarget<span class="token punctuation">.</span><span class="token generic-method"><span class="token function">GetComponent</span><span class="token generic class-name"><span class="token punctuation">&lt;</span>CharacterStates<span class="token punctuation">></span></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>        targetStates<span class="token punctuation">.</span><span class="token function">TakeDamage</span><span class="token punctuation">(</span>characterStates<span class="token punctuation">,</span>targetStates<span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>这样，当我们的玩家走到敌人后边的时候就不会受到伤害</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;这一章我们来熟悉一下扩展方法，所谓扩展方法就是在不继承一个类，但是可以额外编写一个类来扩展这个类的功能，比如这一章我们想让我们控制主角在兽人后面时兽人攻击不会造成伤害，这里就要用到&lt;code&gt;transfrom&lt;/code&gt;类，但是&lt;code&gt;transfrom&lt;/code</summary>
+      
+    
+    
+    
+    <category term="Unity学习笔记" scheme="http://sakura-pub.ltd/categories/Unity%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    
+    
+    <category term="Unity" scheme="http://sakura-pub.ltd/tags/Unity/"/>
+    
+  </entry>
   
   <entry>
     <title>Unity笔记17-设置兽人敌人</title>
@@ -462,32 +511,6 @@
     
     
     <category term="Unity" scheme="http://sakura-pub.ltd/tags/Unity/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>关于我</title>
-    <link href="http://sakura-pub.ltd/%E8%AE%B0%E4%BA%8B/%E5%85%B3%E4%BA%8E%E6%88%91/"/>
-    <id>http://sakura-pub.ltd/%E8%AE%B0%E4%BA%8B/%E5%85%B3%E4%BA%8E%E6%88%91/</id>
-    <published>2021-05-31T12:28:23.000Z</published>
-    <updated>2021-06-02T08:02:05.015Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="关于这个博客的一些事🍥"><a href="#关于这个博客的一些事🍥" class="headerlink" title="关于这个博客的一些事🍥"></a>关于这个博客的一些事🍥</h1><p>​    当初创建这个博客的目的是想着记录自己在大学生活中遇到的一些问题或者学习笔记等，平时也看了不少别人的个人博客，于是心血来潮就想自己也创一个属于自己的个人博客。</p><p>​    刚开始我便去查找有什么博客平台，因为我喜欢自己自定义界面的方式，便找到了可以利用GitHub来做一个博客方式，即：<a href="https://hexo.io/zh-cn/">hexo</a> 。之后我便跟着教程开始搭建，也发现了一些很好看的主题，我现在用的这个主题是<a href="https://butterfly.js.org/">butterfly</a>（<a href="https://github.com/jerryc127/hexo-theme-butterfly/tree/dev">GitHub地址</a>）。之后研究美化界面又花了好一些时间，不过在弄这些东西的时候我都觉得很满足，看着属于自己的博客慢慢开始搭建起来，一股成就感就上来了，而且在其中也接触到了许多之前没有遇到过的知识。</p><p>​    弄好博客的基本框架后，才是真正的开始，希望有一个博客之后，能够对我自己有更好的帮助，可以更好地去总结知识点，也希望可以分享一些知识给观看博客的你😀。</p><h1 id="关于我的一些事"><a href="#关于我的一些事" class="headerlink" title="关于我的一些事"></a>关于我的一些事</h1><p>​    待更新…….💨</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h1 id=&quot;关于这个博客的一些事🍥&quot;&gt;&lt;a href=&quot;#关于这个博客的一些事🍥&quot; class=&quot;headerlink&quot; title=&quot;关于这个博客的一些事🍥&quot;&gt;&lt;/a&gt;关于这个博客的一些事🍥&lt;/h1&gt;&lt;p&gt;​    当初创建这个博客的目的是想着记录自己在大学生活中遇</summary>
-      
-    
-    
-    
-    <category term="记事" scheme="http://sakura-pub.ltd/categories/%E8%AE%B0%E4%BA%8B/"/>
-    
-    
-    <category term="记事" scheme="http://sakura-pub.ltd/tags/%E8%AE%B0%E4%BA%8B/"/>
-    
-    <category term="Markdown" scheme="http://sakura-pub.ltd/tags/Markdown/"/>
     
   </entry>
   
