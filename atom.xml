@@ -6,7 +6,7 @@
   <link href="http://sakura-pub.top/atom.xml" rel="self"/>
   
   <link href="http://sakura-pub.top/"/>
-  <updated>2022-06-15T07:34:17.392Z</updated>
+  <updated>2022-06-15T16:15:47.099Z</updated>
   <id>http://sakura-pub.top/</id>
   
   <author>
@@ -18,22 +18,32 @@
   
   <entry>
     <title>投递简历记录</title>
-    <link href="http://sakura-pub.top/%E9%9D%A2%E8%AF%95/%E6%8A%95%E9%80%92%E7%AE%80%E5%8E%86%E8%AE%B0%E5%BD%95/"/>
-    <id>http://sakura-pub.top/%E9%9D%A2%E8%AF%95/%E6%8A%95%E9%80%92%E7%AE%80%E5%8E%86%E8%AE%B0%E5%BD%95/</id>
+    <link href="http://sakura-pub.top/%E9%9D%A2%E8%AF%95/WebServer%E9%A1%B9%E7%9B%AE%E8%A7%A3%E6%9E%90/"/>
+    <id>http://sakura-pub.top/%E9%9D%A2%E8%AF%95/WebServer%E9%A1%B9%E7%9B%AE%E8%A7%A3%E6%9E%90/</id>
     <published>2022-06-15T05:43:43.000Z</published>
-    <updated>2022-06-15T07:34:17.392Z</updated>
+    <updated>2022-06-15T16:15:47.099Z</updated>
     
-    <content type="html"><![CDATA[<div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="Oh, this is an invalid password. Check and try again, please." data-whm="OOPS, these decrypted content may changed, but you can still have a look.">  <script id="hbeData" type="hbeData" data-hmacdigest="898f1d57d0576dd295f06eee842bf48a22cae1a4830ba35275c534840f4df2d3">670ae19628f691ad175e5b026a43a0d80785cb7e775cff7d6d2fa9dd518fe4d307cf9654a50f7ba4bfa3a9f11c6335e176621448b1a043526ceb2ae4bfd6fff82df3689724185eeff05eda5339e469b0fb1b8bd30d89b62c7de182014091d1b57b0354750c7930fef75f93e1d8a7b0674e0b21e89e6b284b25d07e363bd1161275e2686911b1c0003dc56b393530e13101c76860c0739be77dc386e03d385804a75ba5b344c3abecc4b7df1e2bad4661a7700c23f5cba0cc9feeff8b68099ee1dce9787d5cc47729a9e241b1804277fadc899cd84969860c2cad0ecf2ebb135f66a4dd23876a3617d8c067d6ce92749ad951c4c0f1e65e91e8f45848ad99b9bd54bcf71366988145ca9f4edc7bd024b81b8c5ca21966a62b5c615dc23c31ce123889c0e07d31f5db6c8d95918b72b9e353c7342e87dea248323738a1ef6bc62b21690c59bcdbde472600ee6ddda757935e3c14cf2902b59627f15ea5ce921fa37a26b370fbb637b98a57256c2b8e0b343605c0734e68715fa6dad8a3f00041e9bbdd31cfd0e1e7d138b939d6c5fc92d713fbdc3ec65ac4702c57f0f9712445be1205bcd0ee807ed6cee556df4f6a5a6f4a4212fed3691f014837c12240d7957e1f4c7848d5d29fa85c408bab76228cc7fb40b0da742abe383da5e8397e4bab6e62d978725daa93c5c4ea65607082e11a61ef4c0b757948108f0a7b55d71e88ef30dde68fd936b344db41c73da51f2761445f3dee31d6500ac9a4992680ca53262c220245751ffaa04684456097886dd7420f2297f5944de7fdb23f96ef41e54b0622756912f59c9a1caf6bc82a29c7751d15e3573fff4b83b682e21e5e836d9b524973ba13ede40f0bc2e641a85e65f99d5e21d775b2ca4c4c0e97b0d8c0af5a43a02b1a7e89aafed74618fee4ebf8bed9ed4f47d7f8be8bd85c16af40e66b6742f4e2c005e30cf677b484522c889b812790d223fb7a2a29f1f80dca5c681c0b3f88742a3358eba45e3113e652208d70f7a95174995ab82637539026d5cedaf7e8c236635b7bd4d284dcdd9ee3ceec440d4d982ecfa41f3b88c64823f5799a2012fdc1bc5f508054464eb237d5fe07e4</script>  <div class="hbe hbe-content">    <div class="hbe hbe-input hbe-input-default">      <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">      <label class="hbe hbe-input-label hbe-input-label-default" for="hbePass">        <span class="hbe hbe-input-label-content hbe-input-label-content-default">内容已加密，请输入密码查看！</span>      </label>    </div>  </div></div><script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">]]></content>
+    <content type="html"><![CDATA[<p>这篇文章是用来记录并复习之前写过的一个TinyWebServer项目，希望可以梳理一下思路，更进一步吸收里面的知识点</p><h1 id="WebServer总体概述"><a href="#WebServer总体概述" class="headerlink" title="WebServer总体概述"></a>WebServer总体概述</h1><ul><li>epoll 的 <code>ET</code>和<code>LT</code>模式</li><li>MySQL数据库</li><li>数据库连接池</li><li>线程池</li><li>日志系统</li><li>定时器</li><li>Reactor模式（设计模式：反应堆模式）</li><li>HTTP</li><li>大端序和小端序的互转</li><li>读写缓冲区</li></ul><h1 id="WebServer大概的工作流程"><a href="#WebServer大概的工作流程" class="headerlink" title="WebServer大概的工作流程"></a>WebServer大概的工作流程</h1><p>这里有张图可以概括整个Server的工作流程</p><p><img src="https://pic.rmb.bdstatic.com/bjh/0af1379f52f5a695800cfb33599035fa.jpeg" alt="v2-c16b9b3c7c2e279227204a88fc95d1bb_r.jpg"></p><p>分点来说如下：</p><ol><li>主线程监听连接</li><li>主线程让一个epoll监听活跃的文件描述符</li><li>处理完连接进来的文件描述符之后开工作线程</li><li>工作线程处理任务（读和写任务是分开的，不一定是同一个线程共同操作）</li><li></li></ol>]]></content>
     
     
-    <summary type="html">Here&#39;s something encrypted, password is required to continue reading.</summary>
+      
+      
+    <summary type="html">&lt;p&gt;这篇文章是用来记录并复习之前写过的一个TinyWebServer项目，希望可以梳理一下思路，更进一步吸收里面的知识点&lt;/p&gt;
+&lt;h1 id=&quot;WebServer总体概述&quot;&gt;&lt;a href=&quot;#WebServer总体概述&quot; class=&quot;headerlink&quot; title=&quot;</summary>
+      
     
     
     
     <category term="面试" scheme="http://sakura-pub.top/categories/%E9%9D%A2%E8%AF%95/"/>
     
+    <category term="项目" scheme="http://sakura-pub.top/categories/%E9%9D%A2%E8%AF%95/%E9%A1%B9%E7%9B%AE/"/>
+    
     
     <category term="面试" scheme="http://sakura-pub.top/tags/%E9%9D%A2%E8%AF%95/"/>
+    
+    <category term="WebServer" scheme="http://sakura-pub.top/tags/WebServer/"/>
+    
+    <category term="项目" scheme="http://sakura-pub.top/tags/%E9%A1%B9%E7%9B%AE/"/>
     
   </entry>
   
