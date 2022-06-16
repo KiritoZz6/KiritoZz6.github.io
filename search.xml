@@ -4,11 +4,11 @@
   
     
     <entry>
-      <title>投递简历记录</title>
+      <title>WebServer项目解析</title>
       <link href="%E9%9D%A2%E8%AF%95/WebServer%E9%A1%B9%E7%9B%AE%E8%A7%A3%E6%9E%90/"/>
       <url>%E9%9D%A2%E8%AF%95/WebServer%E9%A1%B9%E7%9B%AE%E8%A7%A3%E6%9E%90/</url>
       
-        <content type="html"><![CDATA[<p>这篇文章是用来记录并复习之前写过的一个TinyWebServer项目，希望可以梳理一下思路，更进一步吸收里面的知识点</p><h1 id="WebServer总体概述"><a href="#WebServer总体概述" class="headerlink" title="WebServer总体概述"></a>WebServer总体概述</h1><ul><li>epoll 的 <code>ET</code>和<code>LT</code>模式</li><li>MySQL数据库</li><li>数据库连接池</li><li>线程池</li><li>日志系统</li><li>定时器</li><li>Reactor模式（设计模式：反应堆模式）</li><li>HTTP</li><li>大端序和小端序的互转</li><li>读写缓冲区</li></ul><h1 id="WebServer大概的工作流程"><a href="#WebServer大概的工作流程" class="headerlink" title="WebServer大概的工作流程"></a>WebServer大概的工作流程</h1><p>这里有张图可以概括整个Server的工作流程</p><p><img src="https://pic.rmb.bdstatic.com/bjh/0af1379f52f5a695800cfb33599035fa.jpeg" alt="v2-c16b9b3c7c2e279227204a88fc95d1bb_r.jpg"></p><p>分点来说如下：</p><ol><li>主线程监听连接</li><li>主线程让一个epoll监听活跃的文件描述符</li><li>处理完连接进来的文件描述符之后开工作线程</li><li>工作线程处理任务（读和写任务是分开的，不一定是同一个线程共同操作）</li><li></li></ol>]]></content>
+        <content type="html"><![CDATA[<p>这篇文章是用来记录并复习之前写过的一个TinyWebServer项目，希望可以梳理一下思路，更进一步吸收里面的知识点</p><h1 id="WebServer总体概述"><a href="#WebServer总体概述" class="headerlink" title="WebServer总体概述"></a>WebServer总体概述</h1><ul><li>epoll 的 <code>ET</code>和<code>LT</code>模式</li><li>MySQL数据库</li><li>数据库连接池</li><li>线程池</li><li>日志系统</li><li>定时器</li><li>Reactor模式（设计模式：反应堆模式）</li><li>HTTP</li><li>大端序和小端序的互转</li><li>读写缓冲区</li></ul><h1 id="WebServer大概的工作流程"><a href="#WebServer大概的工作流程" class="headerlink" title="WebServer大概的工作流程"></a>WebServer大概的工作流程</h1><p>这里有张图可以概括整个Server的工作流程</p><p><img src="https://pic.rmb.bdstatic.com/bjh/0af1379f52f5a695800cfb33599035fa.jpeg" alt="v2-c16b9b3c7c2e279227204a88fc95d1bb_r.jpg"></p><p>分点来说如下：</p><ol><li>主线程监听连接</li><li>主线程让一个epoll监听活跃的文件描述符</li><li>处理完连接进来的文件描述符之后开工作线程</li><li>工作线程处理任务（读和写任务是分开的，不一定是同一个线程共同操作）</li></ol><p>待更新。。。</p>]]></content>
       
       
       <categories>
