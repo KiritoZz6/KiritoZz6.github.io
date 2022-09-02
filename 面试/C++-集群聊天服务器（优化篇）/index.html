@@ -1,0 +1,297 @@
+<!DOCTYPE html><html lang="zh-Hans" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>C++集群聊天服务器（优化篇） | 🌸樱花酒吧🍻</title><meta name="keywords" content="面试,项目,集群聊天服务器"><meta name="author" content="Sakura."><meta name="copyright" content="Sakura."><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="本篇文章是在做完该项目的服务端和客户端后写的，记录所要优化方面的内容 负载均衡器 —— Nginx什么是Nginx，在网上查找到的资料如下：  Nginx是十分轻量级的HTTP服务器。Nginx，它的发音为“engine X”，是一个高性能的HTTP和反向代理服务器，同时也是一个IMAP&#x2F;POP3&#x2F;SMTP 代理服务器。Nginx是由俄罗斯人 Igor Sysoev为俄罗斯访问量第二的 Rambl">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++集群聊天服务器（优化篇）">
+<meta property="og:url" content="http://sakura-pub.top/%E9%9D%A2%E8%AF%95/C++-%E9%9B%86%E7%BE%A4%E8%81%8A%E5%A4%A9%E6%9C%8D%E5%8A%A1%E5%99%A8%EF%BC%88%E4%BC%98%E5%8C%96%E7%AF%87%EF%BC%89/index.html">
+<meta property="og:site_name" content="🌸樱花酒吧🍻">
+<meta property="og:description" content="本篇文章是在做完该项目的服务端和客户端后写的，记录所要优化方面的内容 负载均衡器 —— Nginx什么是Nginx，在网上查找到的资料如下：  Nginx是十分轻量级的HTTP服务器。Nginx，它的发音为“engine X”，是一个高性能的HTTP和反向代理服务器，同时也是一个IMAP&#x2F;POP3&#x2F;SMTP 代理服务器。Nginx是由俄罗斯人 Igor Sysoev为俄罗斯访问量第二的 Rambl">
+<meta property="og:locale">
+<meta property="og:image" content="https://pic.rmb.bdstatic.com/bjh/f4a9fb349489af60d0af1b1ccfca71fe.jpeg">
+<meta property="article:published_time" content="2022-07-24T15:10:26.000Z">
+<meta property="article:modified_time" content="2022-07-25T04:49:29.659Z">
+<meta property="article:author" content="Sakura.">
+<meta property="article:tag" content="面试">
+<meta property="article:tag" content="项目">
+<meta property="article:tag" content="集群聊天服务器">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic.rmb.bdstatic.com/bjh/f4a9fb349489af60d0af1b1ccfca71fe.jpeg"><link rel="shortcut icon" href="/img/0.png"><link rel="canonical" href="http://sakura-pub.top/%E9%9D%A2%E8%AF%95/C++-%E9%9B%86%E7%BE%A4%E8%81%8A%E5%A4%A9%E6%9C%8D%E5%8A%A1%E5%99%A8%EF%BC%88%E4%BC%98%E5%8C%96%E7%AF%87%EF%BC%89/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"prismjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: 'days',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'C++集群聊天服务器（优化篇）',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-07-25 12:49:29'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><link rel="stylesheet" href="https://sakura-pub.ltd/css/Sakura.css"><link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.2.0/styles/github.min.css"><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="🌸樱花酒吧🍻" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">Loading...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://i.loli.net/2021/11/01/ilJyOSYrF7m4M3X.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">46</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">8</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">7</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 目录</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类目录</span></a></li><li><a class="site-page child" href="/LeetCode/LeetCode%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0%E7%AC%AC%E4%B8%80%E6%9C%9F/"><i class="fa-fw fas-archive"></i><span> LeetCode刷题笔记</span></a></li><li><a class="site-page child" href="/categories/%E8%AE%B0%E4%BA%8B/"><span> 记事</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/%E8%AE%B0%E4%BA%8B/%E5%85%B3%E4%BA%8E%E6%88%91/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://pic.rmb.bdstatic.com/bjh/f4a9fb349489af60d0af1b1ccfca71fe.jpeg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">🌸樱花酒吧🍻</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 目录</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类目录</span></a></li><li><a class="site-page child" href="/LeetCode/LeetCode%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0%E7%AC%AC%E4%B8%80%E6%9C%9F/"><i class="fa-fw fas-archive"></i><span> LeetCode刷题笔记</span></a></li><li><a class="site-page child" href="/categories/%E8%AE%B0%E4%BA%8B/"><span> 记事</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/%E8%AE%B0%E4%BA%8B/%E5%85%B3%E4%BA%8E%E6%88%91/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">C++集群聊天服务器（优化篇）</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2022-07-24T15:10:26.000Z" title="Created 2022-07-24 23:10:26">2022-07-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2022-07-25T04:49:29.659Z" title="Updated 2022-07-25 12:49:29">2022-07-25</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E9%9D%A2%E8%AF%95/%E9%A1%B9%E7%9B%AE/">项目</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E9%9D%A2%E8%AF%95/%E9%A1%B9%E7%9B%AE/%E9%9B%86%E7%BE%A4%E8%81%8A%E5%A4%A9%E6%9C%8D%E5%8A%A1%E5%99%A8/">集群聊天服务器</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="C++集群聊天服务器（优化篇）"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">Comments:</span><a href="/%E9%9D%A2%E8%AF%95/C++-%E9%9B%86%E7%BE%A4%E8%81%8A%E5%A4%A9%E6%9C%8D%E5%8A%A1%E5%99%A8%EF%BC%88%E4%BC%98%E5%8C%96%E7%AF%87%EF%BC%89/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/%E9%9D%A2%E8%AF%95/C++-%E9%9B%86%E7%BE%A4%E8%81%8A%E5%A4%A9%E6%9C%8D%E5%8A%A1%E5%99%A8%EF%BC%88%E4%BC%98%E5%8C%96%E7%AF%87%EF%BC%89/" itemprop="commentCount"></span></a></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>本篇文章是在做完该项目的服务端和客户端后写的，记录所要优化方面的内容</p>
+<h1 id="负载均衡器-——-Nginx"><a href="#负载均衡器-——-Nginx" class="headerlink" title="负载均衡器 —— Nginx"></a>负载均衡器 —— Nginx</h1><p><strong>什么是Nginx</strong>，在网上查找到的资料如下：</p>
+<blockquote>
+<p>Nginx是十分轻量级的HTTP服务器。Nginx，它的发音为“engine X”，是一个高性能的HTTP和反向代理服务器，同时也是一个IMAP/POP3/SMTP 代理服务器。Nginx是由俄罗斯人 Igor Sysoev为俄罗斯访问量第二的 Rambler.ru站点开发的，它已经在该站点运行超过两年半了。Igor Sysoev在建立的项目时,使用基于BSD许可。</p>
+<p>Nginx凭借其<strong>稳定性</strong>、<strong>低资源消耗</strong>、<strong>简单配置</strong>和<strong>丰富的功能</strong>，从十多年前名不见经传的Web服务器软件，发展到如今能够跟Apache匹敌的地位。</p>
+</blockquote>
+<p><strong>什么是负载均衡呢？</strong>这里也是引用网上找到的资料：</p>
+<blockquote>
+<p>所谓负载均衡，就是 Nginx 把请求均匀的分摊给上游的应用服务器，这样即使某一个服务器宕机也不会影响请求的处理，或者当应用服务器扛不住了，可以随时进行扩容。</p>
+</blockquote>
+<p><img src="https://pic.rmb.bdstatic.com/bjh/75e90abfde4c84a8185ef7167f203c38.jpeg" alt="什么是负载均衡.jpg"></p>
+<p>从我自身了解的来说，Nginx就是一个客户端连接服务端中间的一个代理服务器，负责将客户端连接分发给多个服务端，从而提高服务端的并发量，它从而达到负载均衡的效果</p>
+<h2 id="为什么要使用负载均衡器？"><a href="#为什么要使用负载均衡器？" class="headerlink" title="为什么要使用负载均衡器？"></a>为什么要使用负载均衡器？</h2><p>这里无非就是问负载均衡器的意义，下面这张图是项目课中老师画的图，有三个点的意义</p>
+<p><img src="https://pic.rmb.bdstatic.com/bjh/34a6e378a363616e0a8b3373c56bdf41.png" alt="为什么要引入负载均衡器.png"></p>
+<ol>
+<li>负载均衡器可以起到一个分配的效果，他会监听集群之后的多个服务器，通过负载均衡策略（有多种），将多个请求分摊到多个服务器中，相当于把一个服务器所要承担的负载量交给多个服务器处理，提高系统的吞吐量；并且当其中一台服务器瘫痪时，还可以使用其他服务器提供正常的服务</li>
+<li>负载均衡器还可以通过心跳机制，即定时发送一个结构体（心跳包），让对方（服务端）知道自己还处在连接当中，这可以作为检测服务端是否故障的机制</li>
+<li>负载均衡器还可以发现新加进来的服务端，方便扩展服务器数量</li>
+</ol>
+<p>另外上图下面还说了Nginx的一个优点，即它是可以平滑启动的，因为我们负载均衡器可能时时刻刻都有用户连接中，当我们想修改配置时不可能时刻都有机会重启，而Nginx则可以在不重启的情况下加载修改好的配置文件</p>
+<h2 id="如何解决集群聊天服务器中跨服务器通信问题？"><a href="#如何解决集群聊天服务器中跨服务器通信问题？" class="headerlink" title="如何解决集群聊天服务器中跨服务器通信问题？"></a>如何解决集群聊天服务器中跨服务器通信问题？</h2><p>当我们使用负载均衡器后，我们要思考一个问题，即我们的客户端可能分布在不同的服务器中，如下图：</p>
+<p><img src="https://pic.rmb.bdstatic.com/bjh/44d1bb8628d9bb70211ceb61406cca63.png" alt="客户端分布在多个服务器中.png"></p>
+<p>用户1、2、3分别在三台服务器中，但是当用户1想发消息给用户2时，<strong>第一台服务器在线列表中并没有用户2的在线信息</strong>，虽然这个时候可以从数据库查表来解决，但是另一个问题是<strong>第一台服务器没有用户2的连接Conn</strong>，这样也导致不能将信息发送给用户2，那么该如何解决呢？</p>
+<p><strong>方案一：</strong>将每个服务器也进行连接，这样便可以传输客户端连接等信息，如下图所示：</p>
+<p><img src="https://pic.rmb.bdstatic.com/bjh/c5769ef07f82e596cd22aabc6abd89bb.png" alt="解决跨服务器通信方案一.png"></p>
+<p>这种方案缺点很明显：</p>
+<ol>
+<li>实现复杂，6台服务器就要进行那么多连接，各服务器带宽压力大，业务代码也要进行大量的修改，不利于系统修改</li>
+<li>当服务器发生异常时，难以解决</li>
+<li>违背了“低耦合”的设计理念，这里是强耦合</li>
+</ol>
+<p>因此这个方案是淘汰的！</p>
+<p><strong>方案二：</strong></p>
+<p>而集群部署的服务器之间通信，最好的方式则是引入中间件（有很多种方式），其中一种则是消息队列，如下图：</p>
+<p><img src="https://pic.rmb.bdstatic.com/bjh/3ce898756241f9ece801bddb2735d4f0.png" alt="引入中间件解决跨服务器通信.png"></p>
+<p>当一台服务器新添加进来的时候，我们只用和消息队列建立连接就行了</p>
+<blockquote>
+<p>在集群分布式环境中，经常使用的中间件消息队列有ActiveMQ、RabbitMQ、Kafka等，都是应用场景广<br>泛并且性能很好的消息队列，供集群服务器之间，分布式服务之间进行消息通信。限于我们的项目业务<br>类型并不是非常复杂，对并发请求量也没有太高的要求，因此我们的中间件消息队列选型的是-<strong>基于发</strong><br><strong>布-订阅模式的redis</strong>。  </p>
+</blockquote>
+<p>这也就让我们项目使用Redis的原因</p>
+<p>而消息队列的原理是：当用户1连接进第一台服务器时，第一台服务器则会在消息队列中<strong>订阅这个用户1</strong>，当有人发消息给用户1时，就会<strong>通知并转发消息内容（假设是chat_json）给该第一台服务器</strong>，再由服务器转发json给用户1，从而完成跨服务器通信</p>
+<h2 id="安装及配置、运行Nginx"><a href="#安装及配置、运行Nginx" class="headerlink" title="安装及配置、运行Nginx"></a>安装及配置、运行Nginx</h2><p>安装过程这里就省略了，我安装时候出了点小插曲，最后在官网上下了个最新版的才安装成功。安装过程中注意运行shell脚本时要先进入root用户下并且运行脚本要附带参数 </p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">su root
+.&#x2F;configure --with-stream<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+
+
+<p>安装好后配置文件在目录：<code>/sur/local/nginx.conf</code>中</p>
+<p>然后我们这里要添加的内容如下</p>
+<p><img src="https://pic.rmb.bdstatic.com/bjh/70c5c0449f86cd3d2b295a71dfea1b13.png" alt="nginx配置文件中要添加的配置.png"></p>
+<p>里面 upstream Myserver 中的两条文本代表我们本地开两个服务器，供负载均衡器分配客户端</p>
+<p>每个服务器后面的属性意思如下：</p>
+<ul>
+<li>weight：代表权重值，影响着负载均衡器分配算法，如果每个服务器权重值都一样则按照轮询的方法来分配</li>
+<li>max_fails：影响着负载均衡器心跳机制，按照这里的3来说，如果发送了3次心跳包后还没有收到响应，则负载均衡器判断该服务器挂掉了</li>
+</ul>
+<p>下面server中有个<code>listen 8000</code>代表nginx监听连接到8000端口的客户端，即客户端只用连接进来服务器的8000端口就可以使用nginx的服务了</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"># nginx tcp loadbalance config
+stream &#123;
+    upstream MyServer&#123;
+        server 127.0.0.1:6970 weight&#x3D;1 max_fails&#x3D;3 fail_timeout&#x3D;3s;
+        server 127.0.0.1:6971 weight&#x3D;1 max_fails&#x3D;3 fail_timeout&#x3D;3s;
+    &#125;   
+
+    server&#123;
+        proxy_connect_timeout 1s;
+        #proxy_timeout 3s;
+        listen 6969;
+        proxy_pass MyServer;
+        tcp_nodelay on;
+    &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<p>配置好后即可在<code>/usr/local/nginx/sbin</code>目录下运行nginx，注意要用root用户启动</p>
+<p>启动后可通过<code>netstat -tanp</code>查看是否有启动（一般在80端口）</p>
+<pre class="line-numbers language-none"><code class="language-none">korone@ubuntu:&#x2F;usr&#x2F;local&#x2F;nginx&#x2F;sbin$ sudo netstat -tanp
+激活Internet连接 (服务器和已建立连接的)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID&#x2F;Program name  
+...
+tcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN      21684&#x2F;nginx: master 
+...<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>运行之后想停止或重新加载配置文件可以用以下命令</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">nginx -s reload # 重新加载配置文件启动
+nginx -s stop   # 停止nginx服务<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+
+
+<h2 id="验证Nginx效果"><a href="#验证Nginx效果" class="headerlink" title="验证Nginx效果"></a>验证Nginx效果</h2><p>启动Nginx后，我们再选择启动两个服务端，分别是在配置文件上配置的服务器地址和端口（一个6970端口，一个6971端口，Nginx监听的是6969端口）</p>
+<p><img src="https://pic.rmb.bdstatic.com/bjh/403164850c5a8883450fc987ae84167a.png" alt="验证Nginx-启动两个服务端.png"></p>
+<p>由于我设置的权重值都是1<code>weight=1</code>，所以按理来说我连两个客户端（连接端口是Nginx的6969端口），Nginx应该是轮询方式分配给上图两个服务器，结果也是成功了，看下图</p>
+<p><img src="https://pic.rmb.bdstatic.com/bjh/e5a3312d6d8876859d492f640be1c909.png" alt="验证Nginx-轮询分配客户端结果.png"></p>
+<p>大功告成！！</p>
+<h1 id="基于发布—订阅的消息队列中间件-——-Redis"><a href="#基于发布—订阅的消息队列中间件-——-Redis" class="headerlink" title="基于发布—订阅的消息队列中间件 —— Redis"></a>基于发布—订阅的消息队列中间件 —— Redis</h1><p>在这里我们要修改项目代码，增加一个Redis类，在这个类中我们要根据之前分析的消息队列制定下面几个功能</p>
+<ul>
+<li>服务端和消息队列连接</li>
+<li>为服务器创建一个通道（订阅）</li>
+<li>删除通道</li>
+<li>服务器发布消息</li>
+<li>消息队列收到消息通知服务器</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">Sakura.</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://sakura-pub.top/%E9%9D%A2%E8%AF%95/C++-%E9%9B%86%E7%BE%A4%E8%81%8A%E5%A4%A9%E6%9C%8D%E5%8A%A1%E5%99%A8%EF%BC%88%E4%BC%98%E5%8C%96%E7%AF%87%EF%BC%89/">http://sakura-pub.top/%E9%9D%A2%E8%AF%95/C++-%E9%9B%86%E7%BE%A4%E8%81%8A%E5%A4%A9%E6%9C%8D%E5%8A%A1%E5%99%A8%EF%BC%88%E4%BC%98%E5%8C%96%E7%AF%87%EF%BC%89/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E9%9D%A2%E8%AF%95/">面试</a><a class="post-meta__tags" href="/tags/%E9%A1%B9%E7%9B%AE/">项目</a><a class="post-meta__tags" href="/tags/%E9%9B%86%E7%BE%A4%E8%81%8A%E5%A4%A9%E6%9C%8D%E5%8A%A1%E5%99%A8/">集群聊天服务器</a></div><div class="post_share"><div class="social-share" data-image="https://pic.rmb.bdstatic.com/bjh/f4a9fb349489af60d0af1b1ccfca71fe.jpeg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/%E9%9D%A2%E8%AF%95/C++-%E9%9B%86%E7%BE%A4%E8%81%8A%E5%A4%A9%E6%9C%8D%E5%8A%A1%E5%99%A8%EF%BC%88%E7%BB%86%E8%8A%82%E9%97%AE%E9%A2%98%E7%AF%87%EF%BC%89/"><img class="prev-cover" src="https://p.qlogo.cn/hy_personal/3e28f14aa0516842cca4bda79cde803eb27dc704e582549a4cc8c5dea1360098/0.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">C++集群聊天服务器（细节问题篇）</div></div></a></div><div class="next-post pull-right"><a href="/%E9%9D%A2%E8%AF%95/C++%E9%9B%86%E7%BE%A4%E8%81%8A%E5%A4%A9%E6%9C%8D%E5%8A%A1%E5%99%A8%EF%BC%88%E6%AD%A3%E5%BC%8F%E5%86%85%E5%AE%B9%E7%AF%87%EF%BC%89/"><img class="next-cover" src="https://pic.rmb.bdstatic.com/bjh/5c2c84703a1bba59b28ba5819bf00b1e.jpeg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">C++集群聊天服务器（正式内容篇）</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> Related Articles</span></div><div class="relatedPosts-list"><div><a href="/面试/C++集群聊天服务器（正式内容篇）/" title="C++集群聊天服务器（正式内容篇）"><img class="cover" src="https://pic.rmb.bdstatic.com/bjh/5c2c84703a1bba59b28ba5819bf00b1e.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-07-17</div><div class="title">C++集群聊天服务器（正式内容篇）</div></div></a></div><div><a href="/面试/暑假冲刺秋招项目-C++集群聊天服务器（预备知识篇）/" title="暑假冲刺秋招项目--C++集群聊天服务器（预备知识篇）"><img class="cover" src="https://pic.rmb.bdstatic.com/bjh/d488e66d13da478d5eab285e068bdcd3.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-07-16</div><div class="title">暑假冲刺秋招项目--C++集群聊天服务器（预备知识篇）</div></div></a></div><div><a href="/面试/C++-集群聊天服务器（细节问题篇）/" title="C++集群聊天服务器（细节问题篇）"><img class="cover" src="https://p.qlogo.cn/hy_personal/3e28f14aa0516842cca4bda79cde803eb27dc704e582549a4cc8c5dea1360098/0.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-09-02</div><div class="title">C++集群聊天服务器（细节问题篇）</div></div></a></div><div><a href="/面试/WebServer项目解析/" title="WebServer项目解析"><img class="cover" src="https://pic.rmb.bdstatic.com/bjh/39c69a365c6f2c263d521ff2b80a1efd.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-06-15</div><div class="title">WebServer项目解析</div></div></a></div><div><a href="/面试/进程间通信/" title="进程间通信"><img class="cover" src="https://pic.rmb.bdstatic.com/bjh/ffd91bf2df53f05f2a1335acb23ae44f.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-07-14</div><div class="title">进程间通信</div></div></a></div><div><a href="/面试/C++知识点总结/" title="C++知识点总结"><img class="cover" src="https://img30.360buyimg.com/pop/jfs/t1/143950/1/26833/298507/61ea0bf4E4b3dfa6e/cba671ea7f81ef12.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-01-11</div><div class="title">C++知识点总结</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> Comment</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://i.loli.net/2021/11/01/ilJyOSYrF7m4M3X.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Sakura.</div><div class="author-info__description">升起的烟花,从下面看?还是从侧面看?</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">46</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">8</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">7</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/KiritoZz6"><i class="fab fa-github"></i><span>关注我</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/KiritoZz6" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="/sakura_zz@163.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>Announcement</span></div><div class="announcement_content">欢迎来到我的个人博客！如果对文章有问题或者发现错误可以发邮件给我，Email：sakura_zz@163.com</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E5%99%A8-%E2%80%94%E2%80%94-Nginx"><span class="toc-number">1.</span> <span class="toc-text">负载均衡器 —— Nginx</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E5%99%A8%EF%BC%9F"><span class="toc-number">1.1.</span> <span class="toc-text">为什么要使用负载均衡器？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E9%9B%86%E7%BE%A4%E8%81%8A%E5%A4%A9%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%AD%E8%B7%A8%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%80%9A%E4%BF%A1%E9%97%AE%E9%A2%98%EF%BC%9F"><span class="toc-number">1.2.</span> <span class="toc-text">如何解决集群聊天服务器中跨服务器通信问题？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%8F%8A%E9%85%8D%E7%BD%AE%E3%80%81%E8%BF%90%E8%A1%8CNginx"><span class="toc-number">1.3.</span> <span class="toc-text">安装及配置、运行Nginx</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81Nginx%E6%95%88%E6%9E%9C"><span class="toc-number">1.4.</span> <span class="toc-text">验证Nginx效果</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E5%8F%91%E5%B8%83%E2%80%94%E8%AE%A2%E9%98%85%E7%9A%84%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%B8%AD%E9%97%B4%E4%BB%B6-%E2%80%94%E2%80%94-Redis"><span class="toc-number">2.</span> <span class="toc-text">基于发布—订阅的消息队列中间件 —— Redis</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/%E9%9D%A2%E8%AF%95/C++-%E9%9B%86%E7%BE%A4%E8%81%8A%E5%A4%A9%E6%9C%8D%E5%8A%A1%E5%99%A8%EF%BC%88%E7%BB%86%E8%8A%82%E9%97%AE%E9%A2%98%E7%AF%87%EF%BC%89/" title="C++集群聊天服务器（细节问题篇）"><img src="https://p.qlogo.cn/hy_personal/3e28f14aa0516842cca4bda79cde803eb27dc704e582549a4cc8c5dea1360098/0.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="C++集群聊天服务器（细节问题篇）"/></a><div class="content"><a class="title" href="/%E9%9D%A2%E8%AF%95/C++-%E9%9B%86%E7%BE%A4%E8%81%8A%E5%A4%A9%E6%9C%8D%E5%8A%A1%E5%99%A8%EF%BC%88%E7%BB%86%E8%8A%82%E9%97%AE%E9%A2%98%E7%AF%87%EF%BC%89/" title="C++集群聊天服务器（细节问题篇）">C++集群聊天服务器（细节问题篇）</a><time datetime="2022-09-02T02:41:04.000Z" title="Created 2022-09-02 10:41:04">2022-09-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/%E9%9D%A2%E8%AF%95/C++-%E9%9B%86%E7%BE%A4%E8%81%8A%E5%A4%A9%E6%9C%8D%E5%8A%A1%E5%99%A8%EF%BC%88%E4%BC%98%E5%8C%96%E7%AF%87%EF%BC%89/" title="C++集群聊天服务器（优化篇）"><img src="https://pic.rmb.bdstatic.com/bjh/f4a9fb349489af60d0af1b1ccfca71fe.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="C++集群聊天服务器（优化篇）"/></a><div class="content"><a class="title" href="/%E9%9D%A2%E8%AF%95/C++-%E9%9B%86%E7%BE%A4%E8%81%8A%E5%A4%A9%E6%9C%8D%E5%8A%A1%E5%99%A8%EF%BC%88%E4%BC%98%E5%8C%96%E7%AF%87%EF%BC%89/" title="C++集群聊天服务器（优化篇）">C++集群聊天服务器（优化篇）</a><time datetime="2022-07-24T15:10:26.000Z" title="Created 2022-07-24 23:10:26">2022-07-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/%E9%9D%A2%E8%AF%95/C++%E9%9B%86%E7%BE%A4%E8%81%8A%E5%A4%A9%E6%9C%8D%E5%8A%A1%E5%99%A8%EF%BC%88%E6%AD%A3%E5%BC%8F%E5%86%85%E5%AE%B9%E7%AF%87%EF%BC%89/" title="C++集群聊天服务器（正式内容篇）"><img src="https://pic.rmb.bdstatic.com/bjh/5c2c84703a1bba59b28ba5819bf00b1e.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="C++集群聊天服务器（正式内容篇）"/></a><div class="content"><a class="title" href="/%E9%9D%A2%E8%AF%95/C++%E9%9B%86%E7%BE%A4%E8%81%8A%E5%A4%A9%E6%9C%8D%E5%8A%A1%E5%99%A8%EF%BC%88%E6%AD%A3%E5%BC%8F%E5%86%85%E5%AE%B9%E7%AF%87%EF%BC%89/" title="C++集群聊天服务器（正式内容篇）">C++集群聊天服务器（正式内容篇）</a><time datetime="2022-07-17T03:56:18.000Z" title="Created 2022-07-17 11:56:18">2022-07-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/%E9%9D%A2%E8%AF%95/%E6%9A%91%E5%81%87%E5%86%B2%E5%88%BA%E7%A7%8B%E6%8B%9B%E9%A1%B9%E7%9B%AE-C++%E9%9B%86%E7%BE%A4%E8%81%8A%E5%A4%A9%E6%9C%8D%E5%8A%A1%E5%99%A8%EF%BC%88%E9%A2%84%E5%A4%87%E7%9F%A5%E8%AF%86%E7%AF%87%EF%BC%89/" title="暑假冲刺秋招项目--C++集群聊天服务器（预备知识篇）"><img src="https://pic.rmb.bdstatic.com/bjh/d488e66d13da478d5eab285e068bdcd3.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="暑假冲刺秋招项目--C++集群聊天服务器（预备知识篇）"/></a><div class="content"><a class="title" href="/%E9%9D%A2%E8%AF%95/%E6%9A%91%E5%81%87%E5%86%B2%E5%88%BA%E7%A7%8B%E6%8B%9B%E9%A1%B9%E7%9B%AE-C++%E9%9B%86%E7%BE%A4%E8%81%8A%E5%A4%A9%E6%9C%8D%E5%8A%A1%E5%99%A8%EF%BC%88%E9%A2%84%E5%A4%87%E7%9F%A5%E8%AF%86%E7%AF%87%EF%BC%89/" title="暑假冲刺秋招项目--C++集群聊天服务器（预备知识篇）">暑假冲刺秋招项目--C++集群聊天服务器（预备知识篇）</a><time datetime="2022-07-16T06:38:33.000Z" title="Created 2022-07-16 14:38:33">2022-07-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/%E9%9D%A2%E8%AF%95/%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/" title="进程间通信"><img src="https://pic.rmb.bdstatic.com/bjh/ffd91bf2df53f05f2a1335acb23ae44f.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="进程间通信"/></a><div class="content"><a class="title" href="/%E9%9D%A2%E8%AF%95/%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/" title="进程间通信">进程间通信</a><time datetime="2022-07-13T16:15:46.000Z" title="Created 2022-07-14 00:15:46">2022-07-14</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By Sakura.</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="Toggle Between Traditional Chinese And Simplified Chinese">繁</button><button id="darkmode" type="button" title="Toggle Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="Scroll To Comments"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'uoCtAtvANzWpqnPNGCNRPK7g-gzGzoHsz',
+      appKey: 'NIjj8lYmojE9cbwXtTlGUh6F',
+      placeholder: '记得留下你的昵称和邮箱....可以快速收到回复',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: false,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script defer src="/live2d-widget/autoload.js"></script><script src="/cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js" async="async" mobile="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
